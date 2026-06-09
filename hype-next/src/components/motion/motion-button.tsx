@@ -2,7 +2,7 @@
 
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { forwardRef } from "react";
-import { buttonPress, dur, ease, fadeUp, reduceMotion } from "@/lib/motion";
+import { buttonPress, dur, ease, reduceMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type MotionButtonProps = HTMLMotionProps<"button"> & {

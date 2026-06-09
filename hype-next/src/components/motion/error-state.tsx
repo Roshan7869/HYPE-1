@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { AlertTriangle } from "lucide-react";
 import type { ReactNode } from "react";
-import { fadeUp, dur, ease, reduceMotion } from "@/lib/motion";
+import { fadeUp, ease, reduceMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface ErrorStateProps {

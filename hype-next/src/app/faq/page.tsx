@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Plus, Minus, HelpCircle, Mail, MessageCircle } from "lucide-react";
+import { Search, Plus, HelpCircle, Mail, MessageCircle } from "lucide-react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Footer } from "@/components/layout/footer";
 import { EmptyState } from "@/components/motion/empty-state";

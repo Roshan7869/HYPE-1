@@ -22,7 +22,7 @@ import { AccountShell } from "@/components/account/account-shell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PasswordStrengthMeter, getPasswordStrength } from "@/components/auth/password-strength";
-import { EmptyState, ToastProvider, useToast } from "@/components/motion";
+import { ToastProvider, useToast } from "@/components/motion";
 import { dur, ease, fadeUp, reduceMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 

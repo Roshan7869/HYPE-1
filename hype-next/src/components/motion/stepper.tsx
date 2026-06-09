@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { dur, ease, reduceMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";

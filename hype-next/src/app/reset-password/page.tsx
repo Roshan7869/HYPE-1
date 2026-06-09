@@ -4,12 +4,12 @@ import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Eye, EyeOff, ArrowLeft, Lock, CheckCircle2, AlertTriangle, KeyRound } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, CheckCircle2, AlertTriangle, KeyRound } from "lucide-react";
 import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordStrengthMeter } from "@/components/auth/password-strength";
-import { dur, ease, fadeUp, modalBackdrop, modalContent, reduceMotion, stagger } from "@/lib/motion";
+import { dur, ease, fadeUp, modalContent, reduceMotion, stagger } from "@/lib/motion";
 
 export default function ResetPasswordPage() {
   return (
