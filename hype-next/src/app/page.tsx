@@ -1,5 +1,5 @@
-import { NavMarketplace } from "@/components/layout/nav-marketplace";
-import { FooterDetailed } from "@/components/layout/footer";
+import { SiteHeader } from "@/components/layout/site-header";
+import { Footer } from "@/components/layout/footer";
 import { Hero } from "@/components/home/hero";
 import { StatsBar } from "@/components/home/stats-bar";
 import { MarketGrid } from "@/components/home/market-grid";
@@ -13,7 +13,7 @@ export default function HomePage() {
 
   return (
     <div className="page">
-      <NavMarketplace />
+      <SiteHeader />
       <main className="flex-1">
         <Hero />
         <StatsBar />
@@ -22,7 +22,7 @@ export default function HomePage() {
         <MarketMoves />
         <StayAhead />
       </main>
-      <FooterDetailed />
+      <Footer />
     </div>
   );
 }
