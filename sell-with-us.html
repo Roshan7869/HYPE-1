@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYPE — Sell With Us</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.swu{flex:1;background:var(--cream-3)}
+
+/* hero */
+.swhero{background:linear-gradient(120deg,#e9e0d2 0%,#ded2c0 100%);position:relative;overflow:hidden}
+.swhero__inner{max-width:var(--maxw);margin:0 auto;padding:70px 48px 80px;display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center}
+.swhero h1{font-family:var(--font-disp);font-weight:800;font-size:clamp(54px,6vw,90px);line-height:.9;letter-spacing:-.03em}
+.swhero p{font-size:17px;color:#4f4a40;margin:22px 0 28px;max-width:430px;line-height:1.5}
+.swhero__btns{display:flex;gap:14px}
+.swhero__art{height:380px;border-radius:20px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#d8c4ac,#b89e80);display:flex;align-items:center;justify-content:center}
+.swhero__art .pl{font-family:var(--font-disp);font-weight:800;color:rgba(255,255,255,.6);font-size:18px;letter-spacing:.1em}
+
+/* section title */
+.swsec{max-width:var(--maxw);margin:0 auto;padding:0 48px}
+.swh-center{text-align:center;font-family:var(--font-disp);font-weight:800;font-size:34px;letter-spacing:-.01em;padding:72px 0 50px}
+.swh-left{font-family:var(--font-disp);font-weight:800;font-size:30px;letter-spacing:-.01em;padding:56px 0 32px}
+
+/* process steps */
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;padding-bottom:70px}
+.s4{position:relative;text-align:center;padding:0 18px}
+.s4__ghost{font-family:var(--font-disp);font-weight:800;font-size:120px;color:rgba(12,11,10,.07);line-height:.8;letter-spacing:-.04em}
+.s4__ic{width:70px;height:70px;border:1.5px solid rgba(12,11,10,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:-30px auto 26px;background:var(--cream-3);position:relative;z-index:2}
+.s4__ic svg{width:26px;height:26px}
+.s4__n{font-family:var(--font-disp);font-weight:800;font-size:34px;line-height:1}
+.s4__d{font-size:14px;color:#6f6a60;margin-top:10px;line-height:1.45;max-width:200px;margin-left:auto;margin-right:auto}
+.s4__arr{position:absolute;top:18px;right:-12px;color:#9c958a;z-index:3}
+.s4__arr svg{width:26px;height:14px}
+
+/* feature cards */
+.feats{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:20px}
+.feat{background:var(--ink);color:#fff;border-radius:18px;padding:30px;display:flex;gap:20px;align-items:flex-start}
+.feat__ic{width:62px;height:62px;border-radius:14px;background:#d8c4ac;display:flex;align-items:center;justify-content:center;flex:none}
+.feat__ic svg{width:28px;height:28px;color:var(--ink)}
+.feat h3{font-family:var(--font-disp);font-weight:800;font-size:22px;margin-bottom:6px}
+.feat p{color:#b7b0a4;font-size:15px;line-height:1.4}
+
+/* badge tiers */
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-bottom:20px}
+.tier{border-radius:22px;padding:32px;color:#fff;position:relative;overflow:hidden;min-height:330px}
+.tier--bronze{background:linear-gradient(135deg,#b5733a 0%,#3a2414 55%,#120c07 100%)}
+.tier--silver{background:linear-gradient(135deg,#9fa0a4 0%,#3c3d40 55%,#121214 100%)}
+.tier--gold{background:linear-gradient(135deg,#9aa03a 0%,#3c3e14 55%,#121307 100%)}
+.tier--plat{background:linear-gradient(135deg,#6f7e9a 0%,#2f3744 55%,#0e1014 100%)}
+.tier__swoosh{position:absolute;right:-30px;top:30px;font-family:var(--font-disp);font-weight:800;font-size:240px;color:rgba(255,255,255,.1);line-height:.7;pointer-events:none}
+.tier__star{width:54px;height:54px;border-radius:50%;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;position:relative;z-index:2}
+.tier__star svg{width:26px;height:26px;color:#fff}
+.tier__lbl{position:absolute;top:34px;right:32px;background:rgba(255,255,255,.18);font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;z-index:2}
+.tier h3{font-family:var(--font-disp);font-weight:800;font-size:30px;margin:36px 0 16px;position:relative;z-index:2}
+.tier__req{position:relative;z-index:2;font-size:13px;color:rgba(255,255,255,.7)}
+.tier__req b{display:block;color:#fff;font-weight:600;margin-top:2px;font-size:14px}
+.tier__perks{position:relative;z-index:2;margin-top:24px;border-top:1px solid rgba(255,255,255,.18);padding-top:18px}
+.tier__perks .pt{text-align:center;font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.6);margin-bottom:14px}
+.tier__perks .p{display:flex;align-items:center;gap:11px;font-size:14px;padding:6px 0;color:rgba(255,255,255,.92)}
+.tier__perks .p svg{width:18px;height:18px;flex:none;opacity:.9}
+
+/* ready cta */
+.ready{margin:70px 0 90px;border-radius:24px;overflow:hidden;position:relative;
+  background:linear-gradient(120deg,#efe7da 0%,#e4d6c2 60%,#cbb89c 100%);padding:70px 40px;text-align:center}
+.ready h2{font-family:var(--font-disp);font-weight:800;font-size:44px;letter-spacing:-.02em}
+.ready p{color:#5c564c;font-size:18px;margin:10px 0 28px}
+.ready .note{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7e776b;margin-top:30px;font-weight:600}
+
+@media (max-width:1000px){
+  .swhero__inner,.feats,.tiers{grid-template-columns:1fr}
+  .steps4{grid-template-columns:repeat(2,1fr);gap:30px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">HYPE.</a>
+    <nav class="nav__links">
+      <a href="index.html">HOME</a>
+      <a href="shop.html">SHOP</a>
+      <a href="live-auctions.html">LIVE AUCTIONS</a>
+      <a href="sell-with-us.html" class="active">SELL WITH US</a>
+      <a href="#">ABOUT</a>
+      <a href="#">CONTACT</a>
+    </nav>
+    <div class="nav__cta">
+      <a href="#" class="btn btn--ghost">LOGIN</a>
+      <a href="#" class="btn btn--light">SIGN UP</a>
+    </div>
+  </div>
+</header>
+
+<main class="swu">
+
+  <!-- HERO -->
+  <section class="swhero">
+    <div class="swhero__inner">
+      <div>
+        <h1>List, Ship<br>Get Paid.</h1>
+        <p>THE HYPE COMPANY is the trusted marketplace for verified resale, secure selling, and market-driven pricing across all hype categories.</p>
+        <div class="swhero__btns">
+          <a href="create-listing.html" class="btn btn--dark btn--lg">Start Selling</a>
+          <a href="#" class="btn btn--outline btn--lg">Sell With Us</a>
+        </div>
+      </div>
+      <div class="swhero__art"><span class="pl">HYPE PACKAGING</span></div>
+    </div>
+  </section>
+
+  <!-- HOW SELLING WORKS (process) -->
+  <div class="swsec">
+    <h2 class="swh-center">HOW SELLING WORKS</h2>
+    <div class="steps4">
+      <div class="s4">
+        <div class="s4__ghost">01</div>
+        <div class="s4__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></div>
+        <div class="s4__n">01</div>
+        <p class="s4__d">Create your seller account and verify your documents.</p>
+        <span class="s4__arr"><svg viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h20M16 2l6 5-6 5"/></svg></span>
+      </div>
+      <div class="s4">
+        <div class="s4__ghost">02</div>
+        <div class="s4__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+        <div class="s4__n">02</div>
+        <p class="s4__d">List your item and choose from Hype's suggested starting prices.</p>
+        <span class="s4__arr"><svg viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h20M16 2l6 5-6 5"/></svg></span>
+      </div>
+      <div class="s4">
+        <div class="s4__ghost">03</div>
+        <div class="s4__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 7h12v9H1zM13 10h5l3 3v3h-8z"/><circle cx="5" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
+        <div class="s4__n">03</div>
+        <p class="s4__d">Our delivery partner picks up your item when it's safe.</p>
+        <span class="s4__arr"><svg viewBox="0 0 26 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 7h20M16 2l6 5-6 5"/></svg></span>
+      </div>
+      <div class="s4">
+        <div class="s4__ghost">04</div>
+        <div class="s4__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5"/></svg></div>
+        <div class="s4__n">04</div>
+        <p class="s4__d">Item is authenticated and shipped to buyer. You get paid.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="swsec">
+    <h2 class="swh-left">HOW SELLING WORKS</h2>
+    <div class="feats">
+      <div class="feat"><div class="feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 7h12v9H1zM13 10h5l3 3v3h-8z"/><circle cx="5" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><div><h3>Instant Logistics</h3><p>No trips to a courier office.</p></div></div>
+      <div class="feat"><div class="feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5z"/><path d="M9 11l2 2 4-4" stroke="#d8c4ac"/></svg></div><div><h3>Authentication Handled</h3><p>We verify, you just ship to us.</p></div></div>
+      <div class="feat"><div class="feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5C9.5 8 10.6 7.5 12 7.5s2.5.7 2.5 2-1 1.8-2.5 2-2.5.6-2.5 2 1.1 2 2.5 2 2.5-.6 2.5-2"/></svg></div><div><h3>Live Auction Pricing</h3><p>The market pays the real price.</p></div></div>
+      <div class="feat"><div class="feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M12 3v9h9"/></svg></div><div><h3>Analytics Dashboard</h3><p>Track view, watchlist &amp; conversion.</p></div></div>
+      <div class="feat"><div class="feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="9" r="5"/><path d="M9 13l-2 8 5-3 5 3-2-8"/></svg></div><div><h3>Badge Tier System</h3><p>Build your seller reputation.</p></div></div>
+      <div class="feat"><div class="feat__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div><h3>Seller Protection</h3><p>Dispute protection &amp; relisting on buyer-fault cancellations.</p></div></div>
+    </div>
+  </div>
+
+  <!-- BADGE TIERS -->
+  <div class="swsec">
+    <h2 class="swh-center">Badge Tiers</h2>
+    <div class="tiers">
+      <div class="tier tier--bronze">
+        <div class="tier__swoosh">S</div>
+        <div class="tier__star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7 1.5 6.9L12 17.8 5.7 20.9l1.5-6.9L2 9.3l7-.8z"/></svg></div>
+        <span class="tier__lbl">Bronze Tier</span>
+        <h3>New Seller</h3>
+        <div class="tier__req">Requirement<b>Complete registration and list 1 item.</b></div>
+        <div class="tier__perks"><div class="pt">PERKS</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>List upto 5 items</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Basic seller support</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Access to resources</div>
+        </div>
+      </div>
+      <div class="tier tier--silver">
+        <div class="tier__swoosh">S</div>
+        <div class="tier__star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7 1.5 6.9L12 17.8 5.7 20.9l1.5-6.9L2 9.3l7-.8z"/></svg></div>
+        <span class="tier__lbl">Silver Tier</span>
+        <h3>Verified Seller</h3>
+        <div class="tier__req">Requirement<b>10+ successful sales and ID verified.</b></div>
+        <div class="tier__perks"><div class="pt">PERKS</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>List upto 50 items</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Priority support</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Insights Dashboard</div>
+        </div>
+      </div>
+      <div class="tier tier--gold">
+        <div class="tier__swoosh">S</div>
+        <div class="tier__star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7 1.5 6.9L12 17.8 5.7 20.9l1.5-6.9L2 9.3l7-.8z"/></svg></div>
+        <span class="tier__lbl">Gold Tier</span>
+        <h3>Trusted Seller</h3>
+        <div class="tier__req">Requirement<b>50+ successful sales and 4.8+ rating.</b></div>
+        <div class="tier__perks"><div class="pt">PERKS</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>List upto 200 items</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Lower selling fees</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Early feature access</div>
+        </div>
+      </div>
+      <div class="tier tier--plat">
+        <div class="tier__swoosh">S</div>
+        <div class="tier__star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7 1.5 6.9L12 17.8 5.7 20.9l1.5-6.9L2 9.3l7-.8z"/></svg></div>
+        <span class="tier__lbl">Platinum Tier</span>
+        <h3>Elite Seller</h3>
+        <div class="tier__req">Requirement<b>100+ successful sales and ID verified.</b></div>
+        <div class="tier__perks"><div class="pt">PERKS</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Unlimited listings</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Lowest selling fees</div>
+          <div class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Dedicated account manager</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- READY TO SELL -->
+  <div class="swsec">
+    <div class="ready">
+      <h2>READY TO SELL ?</h2>
+      <p>Join thousands of sellers earning with HYPE.</p>
+      <a href="create-listing.html" class="btn btn--dark btn--lg">APPLY TO SELL</a>
+      <div class="note">NOTE — APPLICATION REVIEWED WITHIN 48 HOURS. DOCUMENT VERIFICATION REQUIRED.</div>
+    </div>
+  </div>
+
+</main>
+
+<div id="footer"></div>
+</div>
+<script src="footer.js"></script>
+</body>
+</html>

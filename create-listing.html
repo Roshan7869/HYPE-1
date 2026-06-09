@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYPE — Create Listing</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.searchcard{background:var(--cream);border-radius:20px;padding:26px;margin-top:6px}
+.searchrow{display:flex;gap:14px}
+.searchrow .inp{flex:1;display:flex;align-items:center;gap:12px;background:#fff;border-radius:12px;padding:18px 22px;color:#9c958a;font-size:15px}
+.searchrow .inp svg{width:18px;height:18px}
+.searchrow .go{background:var(--ink);color:#fff;border-radius:12px;padding:0 40px;font-weight:600;font-size:15px}
+.popular{display:flex;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+.popular .lbl{font-size:14px;color:#5c564c}
+.popular .pchip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:500}
+.popular .pchip:hover{border-color:var(--ink)}
+
+.trend-h{display:flex;align-items:center;gap:10px;font-family:var(--font-disp);font-weight:800;font-size:26px;margin:40px 0 4px}
+.trend-h svg{width:24px;height:24px;color:var(--green-ink)}
+.trend-sub{color:#7e776b;font-size:15px;margin-bottom:24px}
+
+.tgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.tcard{background:var(--cream-2);border-radius:14px;padding:14px;border:1px solid var(--line-soft)}
+.tcard__img{aspect-ratio:1/.82;border-radius:10px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.85);font-family:var(--font-disp);font-weight:700;font-size:13px;text-align:center;background:linear-gradient(150deg,#3a2546,#160a1e)}
+.tcard__name{font-weight:600;font-size:15px;margin-top:12px}
+.tcard__sub{font-size:13px;color:#8c867b;margin-top:2px}
+.tcard__avg{font-family:var(--font-disp);font-weight:800;font-size:15px;margin-top:8px}
+.tcard__avg span{font-weight:500;font-size:12px;color:#8c867b}
+.tcard .badge{margin-top:12px}
+@media (max-width:1100px){.tgrid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">HYPE.</a>
+    <nav class="nav__links">
+      <a href="index.html">HOME</a>
+      <a href="shop.html">SHOP</a>
+      <a href="live-auctions.html">LIVE AUCTIONS</a>
+      <a href="sell-with-us.html">SELL WITH US</a>
+      <a href="#">ABOUT</a>
+      <a href="#">CONTACT</a>
+    </nav>
+    <div class="nav__cta">
+      <a href="#" class="btn btn--ghost">LOGIN</a>
+      <a href="#" class="btn btn--light">SIGN UP</a>
+    </div>
+  </div>
+</header>
+
+<main class="dash">
+  <div class="dash__inner">
+    <aside class="side" id="sidebar" data-active="create"></aside>
+
+    <div class="dash__main">
+      <div class="dash__head">
+        <h1>List Your Next Drop</h1>
+        <p>Start by searching the product you want to sell.</p>
+      </div>
+
+      <div class="searchcard">
+        <div class="searchrow">
+          <div class="inp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>Search sneakers, brands, SKU or collections</div>
+          <button class="go">Search</button>
+        </div>
+        <div class="popular">
+          <span class="lbl">Popular searches:</span>
+          <span class="pchip">Jordan 1</span>
+          <span class="pchip">Apple</span>
+          <span class="pchip">Rolex</span>
+          <span class="pchip">New Balance 9060</span>
+          <span class="pchip">Corteiz</span>
+          <span class="pchip">Travis Scott</span>
+        </div>
+      </div>
+
+      <div class="trend-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18l6-6 4 4 8-9M16 7h5v5"/></svg> Trending Right Now</div>
+      <div class="trend-sub">Most listed sneakers this week</div>
+
+      <div class="tgrid" id="tgrid"></div>
+    </div>
+  </div>
+</main>
+
+<div id="footer"></div>
+</div>
+
+<script src="sidebar.js"></script>
+<script>
+const T=[
+  {name:"Jordan 1 Retro High",sub:"Mocha",avg:"₹24,500",badge:'<span class="badge badge--amber">High Demand</span>',grad:"linear-gradient(150deg,#3a2546,#160a1e)"},
+  {name:"Nike Dunk Low",sub:"Panda",avg:"₹15,800",badge:'<span class="badge badge--amber">High Demand</span>',grad:"linear-gradient(150deg,#2e2540,#120a1c)"},
+  {name:"Yeezy 350 V2",sub:"Beluga",avg:"₹18,900",badge:'<span class="badge badge--pink">Selling Fast</span>',grad:"linear-gradient(150deg,#352843,#150b1e)"},
+  {name:"New Balance 9060",sub:"Grey",avg:"₹22,100",badge:'<span class="badge badge--amber">High Demand</span>',grad:"linear-gradient(150deg,#2b2540,#100a1a)"},
+  {name:"Adidas Samba OG",sub:"Green",avg:"₹12,900",badge:'<span class="badge badge--blue">Trending</span>',grad:"linear-gradient(150deg,#33274a,#130a20)"},
+];
+const cards=[...T,...T,...T];
+document.getElementById('tgrid').innerHTML=cards.map(c=>`
+  <div class="tcard">
+    <div class="tcard__img" style="background:${c.grad}">${c.name.replace(/ /g,'<br>')}<br>${c.sub}</div>
+    <div class="tcard__name">${c.name}</div>
+    <div class="tcard__sub">${c.sub}</div>
+    <div class="tcard__avg">${c.avg} <span>avg.</span></div>
+    ${c.badge}
+  </div>`).join('');
+</script>
+<script src="footer.js"></script>
+</body>
+</html>

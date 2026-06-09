@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYPE — Bid. Win. Repeat.</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ---------------- HOME specific ---------------- */
+.hero{background:var(--sand-hero);position:relative;overflow:hidden}
+.hero__inner{max-width:var(--maxw);margin:0 auto;padding:60px 48px 40px;display:grid;grid-template-columns:1.15fr .95fr .9fr;gap:24px;align-items:center;position:relative}
+.hero__h1{font-family:var(--font-disp);font-weight:800;font-size:clamp(64px,7.4vw,116px);letter-spacing:-.045em;line-height:.84;text-transform:uppercase}
+.hero__sub{font-size:19px;color:#4f4a40;margin:26px 0 30px;max-width:340px;line-height:1.45}
+.hero__btns{display:flex;gap:14px;flex-wrap:wrap}
+
+.hero__art{position:relative;height:520px;display:flex;align-items:flex-end;justify-content:center}
+.hero__shoe{position:absolute;top:6%;left:50%;transform:translateX(-50%) rotate(-14deg);width:78%;height:62%;
+  background:radial-gradient(60% 60% at 50% 40%,#cdb89a,#7c6a52 70%,#4a3d2c);border-radius:30% 38% 42% 30%;
+  box-shadow:0 40px 60px -20px rgba(60,45,25,.5);display:flex;align-items:center;justify-content:center;color:#efe6d6;
+  font-family:var(--font-disp);font-weight:800;font-size:15px;letter-spacing:.1em;text-align:center;opacity:.96}
+.hero__rock{position:absolute;bottom:0;left:50%;transform:translateX(-46%);width:62%;height:160px;
+  background:linear-gradient(160deg,#cbb699,#9a8366 60%,#6f5b41);border-radius:48% 42% 30% 36%/60% 60% 40% 40%;
+  box-shadow:0 30px 40px -18px rgba(60,45,25,.45)}
+
+.hero__live{padding-left:6px}
+.hero__live .tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#3a352c}
+.hero__live .dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.hero__live h2{font-family:var(--font-disp);font-weight:800;font-size:34px;line-height:.98;letter-spacing:-.02em;text-transform:uppercase;margin:14px 0 22px}
+.hero__live .lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7e776b;font-weight:600}
+.hero__bid{display:flex;align-items:flex-start;gap:8px;margin-top:4px}
+.hero__bid b{font-family:var(--font-disp);font-weight:800;font-size:50px;letter-spacing:-.02em;line-height:1}
+.hero__bid .up{margin-top:8px}
+.hero__inc{color:var(--gold);font-weight:600;font-size:15px;margin-top:2px}
+.hero__ends{margin-top:22px}
+.timer{display:flex;align-items:flex-start;gap:14px;margin-top:6px;font-family:var(--font-disp);font-weight:800}
+.timer .num{font-size:40px;letter-spacing:-.01em}
+.timer .colon{font-size:36px}
+.timer__row{display:flex;gap:36px;margin-top:4px}
+.timer__row span{font-size:11px;letter-spacing:.16em;color:#7e776b;font-weight:600}
+.hero__act{display:flex;gap:12px;margin-top:26px}
+.iconbtn{width:52px;height:52px;border:1.5px solid var(--ink);border-radius:13px;display:flex;align-items:center;justify-content:center}
+.iconbtn:hover{background:var(--ink);color:#fff}
+.iconbtn svg{width:20px;height:20px}
+
+/* stats bar */
+.stats{background:var(--sand-hero);border-top:1px solid var(--line)}
+.stats__inner{max-width:var(--maxw);margin:0 auto;padding:30px 48px;display:flex;align-items:center}
+.stat{display:flex;align-items:center;gap:16px;padding:0 50px;border-right:1px solid var(--line)}
+.stat:first-child{padding-left:0}
+.stat svg{width:34px;height:34px;opacity:.85}
+.stat b{font-family:var(--font-disp);font-weight:800;font-size:30px;display:block;line-height:1}
+.stat span{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:#6f6a60;font-weight:600}
+.stat--pulse{margin-left:auto;border:none;padding-right:0;font-family:var(--font-disp);font-weight:800;font-size:18px;letter-spacing:.06em;text-transform:uppercase;gap:12px}
+
+/* filter strip + cards (dark) */
+.market{background:var(--ink);color:#fff;padding:30px 0 44px}
+.fbar{max-width:var(--maxw);margin:0 auto;padding:0 48px;display:flex;align-items:flex-end;gap:0}
+.fcell{padding:0 30px;border-left:1px solid rgba(255,255,255,.16)}
+.fcell:first-child{padding-left:0;border-left:none}
+.fcell .fl{font-size:11px;letter-spacing:.16em;color:#8c867b;text-transform:uppercase;font-weight:600}
+.fcell .fv{display:flex;align-items:center;gap:10px;font-family:var(--font-disp);font-weight:800;font-size:18px;margin-top:6px;letter-spacing:.02em}
+.fcell .fv svg{width:13px;height:13px;opacity:.7}
+.farrows{margin-left:auto;display:flex;gap:12px}
+.farrows button{width:42px;height:42px;border:1.5px solid rgba(255,255,255,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff}
+.farrows button:hover{background:rgba(255,255,255,.1)}
+.farrows svg{width:16px;height:16px}
+
+.cards{max-width:var(--maxw);margin:0 auto;padding:30px 48px 0;display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+.acard{background:transparent}
+.acard__img{position:relative;background:var(--cream);border-radius:12px;aspect-ratio:1/.92;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.acard__img .ph-label{font-family:var(--font-disp);font-weight:700;font-size:12px;color:#b3a892;text-align:center;letter-spacing:.04em;padding:0 10px}
+.acard__live{position:absolute;top:10px;right:10px;background:var(--cream);color:var(--ink);font-size:10px;font-weight:700;letter-spacing:.1em;padding:4px 8px;border-radius:5px}
+.acard__name{font-weight:600;font-size:14px;margin:14px 0 8px}
+.acard__row{display:flex;align-items:center;justify-content:space-between;font-family:var(--font-disp);font-weight:800}
+.acard__row .pr{font-size:18px}
+.acard__row .tm{font-size:16px;color:var(--gold)}
+.acard__row .tm.red{color:var(--red)}
+.acard__meta{display:flex;justify-content:space-between;font-size:11px;color:#8c867b;padding-top:10px;margin-top:10px;border-top:1px solid rgba(255,255,255,.13);letter-spacing:.04em}
+.cardscroll{max-width:var(--maxw);margin:26px auto 0;padding:0 48px}
+.cardscroll .track{height:3px;background:rgba(255,255,255,.16);border-radius:2px;position:relative}
+.cardscroll .track::before{content:"";position:absolute;left:0;top:0;height:100%;width:34%;background:var(--cream);border-radius:2px}
+
+/* how it works */
+.how{background:var(--cream);padding:64px 0 72px}
+.how h2{font-family:var(--font-disp);font-weight:800;font-size:34px;max-width:var(--maxw);margin:0 auto 44px;padding:0 48px;letter-spacing:-.01em}
+.how__row{max-width:var(--maxw);margin:0 auto;padding:0 48px;display:flex;align-items:center;gap:8px}
+.step{display:flex;align-items:center;gap:22px}
+.step__ic{width:78px;height:78px;border:1.5px solid rgba(12,11,10,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.step__ic svg{width:30px;height:30px}
+.step__ic--big{width:104px;height:104px}
+.step__n{font-family:var(--font-disp);font-weight:800;font-size:30px;line-height:1}
+.step__t{font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-top:2px}
+.step__d{font-size:14px;color:#6f6a60;max-width:160px;margin-top:6px;line-height:1.4}
+.how__arr{flex:1;display:flex;justify-content:center;color:#8c867b}
+.how__arr svg{width:60px;height:20px}
+
+/* market moves ticker */
+.moves{background:var(--cream);border-top:1px solid var(--line);padding:22px 0}
+.moves__inner{max-width:var(--maxw);margin:0 auto;padding:0 48px;display:flex;align-items:center;gap:20px;font-size:14px}
+.moves__lbl{font-family:var(--font-disp);font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:10px;flex:none}
+.moves__lbl svg{width:16px;height:16px;color:var(--gold)}
+.moves__list{flex:1;display:flex;align-items:center;gap:18px;color:#4f4a40;overflow:hidden;white-space:nowrap}
+.moves__list .d{opacity:.4}
+.moves__view{flex:none;font-family:var(--font-disp);font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:10px;padding-left:24px;border-left:1px solid var(--line)}
+.moves__view svg{width:22px;height:14px}
+
+/* stay ahead */
+.stay{background:var(--ink);color:#fff;padding:64px 0}
+.stay__inner{max-width:var(--maxw);margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.stay h2{font-family:var(--font-disp);font-weight:800;font-size:40px;letter-spacing:-.02em}
+.stay p{color:#b7b0a4;font-size:16px;margin-top:8px}
+.stay__form{display:flex;width:560px;max-width:100%}
+.stay__form input{flex:1;background:transparent;border:1px solid rgba(255,255,255,.3);border-right:none;color:#fff;padding:18px 22px;font-size:15px;font-family:inherit}
+.stay__form input::placeholder{color:#8c867b}
+.stay__form button{background:var(--cream);color:var(--ink);width:64px;display:flex;align-items:center;justify-content:center}
+.stay__form button svg{width:22px;height:18px}
+
+@media (max-width:1100px){
+  .hero__inner{grid-template-columns:1fr}
+  .hero__art{height:340px;order:-1}
+  .cards{grid-template-columns:repeat(3,1fr)}
+  .fbar{flex-wrap:wrap;gap:18px}
+  .how__row{flex-wrap:wrap}
+  .moves__list{display:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ===== HEADER (marketplace) ===== -->
+<header class="nav nav--market">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">HYPE.</a>
+    <nav class="nav__links">
+      <a href="index.html" class="active">AUCTIONS</a>
+      <a href="live-auctions.html">LIVE</a>
+      <a href="#">UPCOMING</a>
+      <a href="#">SOLD</a>
+      <a href="#">CATEGORIES</a>
+    </nav>
+    <div class="mk-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      Search auctions, items...
+    </div>
+    <div class="mk-actions">
+      <a href="#" class="signin">SIGN IN</a>
+      <a href="#" class="mk-register">REGISTER</a>
+      <button class="mk-burger" aria-label="menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero__inner">
+    <div>
+      <h1 class="hero__h1">Bid.<br>Win.<br>Repeat.</h1>
+      <p class="hero__sub">India's first live auction marketplace for hype culture.</p>
+      <div class="hero__btns">
+        <a href="live-auctions.html" class="btn btn--dark btn--lg">BROWSE AUCTIONS
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        <a href="sell-with-us.html" class="btn btn--outline btn--lg">SELL WITH US</a>
+      </div>
+    </div>
+
+    <div class="hero__art">
+      <div class="hero__rock"></div>
+      <div class="hero__shoe">AIR&nbsp;JORDAN&nbsp;1<br>MOCHA</div>
+    </div>
+
+    <div class="hero__live">
+      <span class="tag"><span class="dot"></span> Live Auction</span>
+      <h2>Air Jordan 1<br>Retro High OG 'Mocha'</h2>
+      <div class="lbl">Current Bid</div>
+      <div class="hero__bid">
+        <b>₹18,500</b>
+        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </div>
+      <div class="hero__inc">+ ₹300</div>
+      <div class="hero__ends">
+        <div class="lbl">Ends In</div>
+        <div class="timer">
+          <span class="num">02</span><span class="colon">:</span>
+          <span class="num">14</span><span class="colon">:</span>
+          <span class="num">33</span>
+        </div>
+        <div class="timer__row"><span>HR</span><span>MIN</span><span>SEC</span></div>
+      </div>
+      <div class="hero__act">
+        <a href="live-auctions.html" class="btn btn--dark btn--lg">PLACE BID
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        <button class="iconbtn" aria-label="save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="stats">
+  <div class="stats__inner">
+    <div class="stat">
+      <svg viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18c4 0 4-12 8-12s4 12 8 12 4-12 8-12 4 12 8 12 4-12 4-12"/></svg>
+      <div><b>12</b><span>Live Auctions</span></div>
+    </div>
+    <div class="stat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.4"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 6a3 3 0 0 1 0 6M17 20a6 6 0 0 0-3-5.2"/></svg>
+      <div><b>1.2K</b><span>Users Watching</span></div>
+    </div>
+    <div class="stat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+      <div><b>₹2.4 CR+</b><span>Total Volume</span></div>
+    </div>
+    <a href="#" class="stat stat--pulse">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M2 12h4l3 8 4-16 3 8h6"/></svg>
+      Market Pulse
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== MARKET / AUCTION CARDS ===== -->
+<section class="market">
+  <div class="fbar">
+    <div class="fcell"><div class="fl">Category</div><div class="fv">Sneakers <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></div></div>
+    <div class="fcell"><div class="fl">Status</div><div class="fv">Live <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></div></div>
+    <div class="fcell"><div class="fl">Price</div><div class="fv">Any <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></div></div>
+    <div class="fcell"><div class="fl">Ending</div><div class="fv">Anytime <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></div></div>
+    <div class="fcell"><div class="fl">Sort By</div><div class="fv">Ending Soon <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></div></div>
+    <div class="farrows">
+      <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12H4M10 6l-6 6 6 6"/></svg></button>
+      <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M14 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+
+  <div class="cards" id="acards"></div>
+  <div class="cardscroll"><div class="track"></div></div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how">
+  <h2>HOW IT WORKS</h2>
+  <div class="how__row">
+    <div class="step">
+      <div class="step__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v3h6V3M9 11h6M9 15h4"/></svg></div>
+      <div><div class="step__n">01</div><div class="step__t">List</div><p class="step__d">List your authentic item in minutes.</p></div>
+    </div>
+    <div class="how__arr"><svg viewBox="0 0 60 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 10h54M48 4l8 6-8 6"/></svg></div>
+    <div class="step">
+      <div class="step__ic step__ic--big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m14 6 4 4M3 21l8-8M13 5l6 6-3 3-6-6zM5 13l6 6"/></svg></div>
+      <div><div class="step__n">02</div><div class="step__t">Bid</div><p class="step__d">Real-time bidding decides the price.</p></div>
+    </div>
+    <div class="how__arr"><svg viewBox="0 0 60 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 10h54M48 4l8 6-8 6"/></svg></div>
+    <div class="step">
+      <div class="step__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 8l9-5 9 5v8l-9 5-9-5z M3 8l9 5 9-5M12 13v8"/></svg></div>
+      <div><div class="step__n">03</div><div class="step__t">Own</div><p class="step__d">Highest bid wins. We authenticate & deliver.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARKET MOVES ===== -->
+<section class="moves">
+  <div class="moves__inner">
+    <span class="moves__lbl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg> MARKET MOVES</span>
+    <div class="moves__list">
+      <span>Nike Dunk Low sold for ₹19,200</span><span class="d">•</span>
+      <span>Yeezy 350 Beluga highest bid ₹25,500</span><span class="d">•</span>
+      <span>Supreme Tee sold for ₹8,500</span><span class="d">•</span>
+      <span>Off-White Air Jordan 1 new bid ₹83,200</span>
+    </div>
+    <a href="#" class="moves__view">VIEW MARKET <svg viewBox="0 0 24 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M0 7h20M15 2l6 5-6 5"/></svg></a>
+  </div>
+</section>
+
+<!-- ===== STAY AHEAD ===== -->
+<section class="stay">
+  <div class="stay__inner">
+    <div>
+      <h2>STAY AHEAD OF THE DROP.</h2>
+      <p>Get updates on exclusive drops and live auctions.</p>
+    </div>
+    <form class="stay__form" onsubmit="return false">
+      <input type="email" placeholder="Enter your email">
+      <button aria-label="subscribe"><svg viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M0 9h20M15 3l6 6-6 6"/></svg></button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER (detailed) ===== -->
+<footer class="foot">
+  <div class="foot__inner" style="grid-template-columns:1.5fr 1fr 1fr 1fr 1fr">
+    <div class="foot__brand">
+      <div class="logo">HYPE.</div>
+      <p style="text-transform:none;letter-spacing:0;font-size:15px;color:#b7b0a4;margin-bottom:18px">The market decides.</p>
+      <p style="text-transform:none;letter-spacing:0;font-size:13px;color:#7c756a">© 2024 HYPE. All rights reserved.</p>
+      <div style="display:flex;gap:16px;margin-top:24px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#b7b0a4" stroke-width="1.6" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#b7b0a4"/></svg>
+        <svg viewBox="0 0 24 24" fill="#b7b0a4" width="18" height="18"><path d="M18 2h-3.5L9 9.5 4.5 2H1l6.5 9L1 22h3.5L10 14l5 8h3.5L11.5 12z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#b7b0a4" stroke-width="1.6" width="20" height="20"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z" fill="#b7b0a4"/></svg>
+      </div>
+    </div>
+    <div class="foot__col"><h4>MARKET</h4><ul><li><a href="live-auctions.html">Auctions</a></li><li><a href="#">Live</a></li><li><a href="#">Upcoming</a></li><li><a href="#">Sold</a></li><li><a href="#">Categories</a></li></ul></div>
+    <div class="foot__col"><h4>SELL</h4><ul><li><a href="sell-with-us.html">Sell With Us</a></li><li><a href="#">How It Works</a></li><li><a href="#">Seller Guide</a></li><li><a href="payouts.html">Payouts</a></li></ul></div>
+    <div class="foot__col"><h4>COMPANY</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Press</a></li></ul></div>
+    <div class="foot__col">
+      <h4>SUPPORT</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Contact Us</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy Policy</a></li></ul>
+    </div>
+  </div>
+  <div class="foot__bottom" style="border-top:1px solid rgba(255,255,255,.1);padding-top:26px">
+    <div style="color:#8f887d;font-size:13px;letter-spacing:.06em;text-transform:uppercase">DOWNLOAD THE APP — COMING SOON</div>
+    <div style="display:flex;gap:12px">
+      <span class="badge" style="background:#1c1a16;color:#cdc7bd;border:1px solid rgba(255,255,255,.15);padding:9px 16px">App Store</span>
+      <span class="badge" style="background:#1c1a16;color:#cdc7bd;border:1px solid rgba(255,255,255,.15);padding:9px 16px">Google Play</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const AUCTIONS=[
+  {name:"Nike Dunk Low Panda",price:"₹18,500",time:"00:42",red:true,watch:"21 watching",size:"US 9 • DS"},
+  {name:"Yeezy 350 V2 Beluga",price:"₹25,200",time:"01:12",watch:"34 watching",size:"US 9.5 • VNDS"},
+  {name:"Supreme Box Logo Hoodie",price:"₹31,000",time:"02:15",watch:"18 watching",size:"Size L • DS"},
+  {name:"Air Jordan 4 University Blue",price:"₹28,750",time:"02:31",watch:"12 watching",size:"US 10 • DS"},
+  {name:"Off-White Air Jordan 1",price:"₹28,000",time:"03:33",watch:"16 watching",size:"US 9 • DS"},
+  {name:"Adidas Gazelle Bold Pink",price:"₹9,800",time:"04:20",watch:"9 watching",size:"UK 7 • DS"},
+];
+document.getElementById('acards').innerHTML=AUCTIONS.map(a=>`
+  <a class="acard" href="live-auctions.html">
+    <div class="acard__img"><span class="ph-label">${a.name}</span><span class="acard__live">LIVE</span></div>
+    <div class="acard__name">${a.name}</div>
+    <div class="acard__row"><span class="pr">${a.price}</span><span class="tm ${a.red?'red':''}">${a.time}</span></div>
+    <div class="acard__meta"><span>${a.watch}</span><span>${a.size}</span></div>
+  </a>`).join('');
+</script>
+</body>
+</html>

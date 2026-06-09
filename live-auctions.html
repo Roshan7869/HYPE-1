@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYPE — Air Jordan 1 Retro High OG 'Chicago'</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.la{background:var(--sand);flex:1}
+.la__inner{max-width:var(--maxw);margin:0 auto;padding:36px 48px 70px}
+
+/* hero */
+.la__hero{display:grid;grid-template-columns:1fr 1.05fr 1fr;gap:30px;align-items:start;margin-bottom:36px}
+.la__img{aspect-ratio:1/1.06;border-radius:18px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#1b2a55 0%,#2f6bd6 30%,#a9c6ff 55%,#d98bd0 80%,#7a3f8f 100%)}
+.la__img .pl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.85);font-family:var(--font-disp);font-weight:700;letter-spacing:.04em;text-align:center;padding:24px}
+.la__img .livep{position:absolute;top:16px;left:16px}
+
+.livep{display:inline-flex;align-items:center;gap:7px;background:var(--green);color:var(--green-ink);font-size:12px;font-weight:700;letter-spacing:.06em;padding:5px 12px;border-radius:999px}
+.livep .dot{width:7px;height:7px;border-radius:50%;background:var(--green-ink)}
+
+.la__mid h1{font-family:var(--font-disp);font-weight:800;font-size:46px;line-height:.98;letter-spacing:-.02em;margin:14px 0 16px}
+.la__brandrow{display:flex;align-items:center;gap:12px;font-weight:600;margin-bottom:14px}
+.la__spec{font-size:14px;color:#5c564c;padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.la__spec b{color:var(--ink)}
+.la__counts{display:flex;align-items:center;gap:22px;font-size:14px;color:#5c564c;margin:16px 0 6px}
+.la__counts .it{display:flex;align-items:center;gap:7px}
+.la__counts svg{width:15px;height:15px}
+.la__counts b{color:var(--ink)}
+.la__inc{color:var(--green-ink);font-weight:700;font-size:15px;margin-top:10px}
+.la__inc span{color:var(--muted);font-weight:500;display:block;font-size:13px}
+.la__ends{margin-top:22px}
+.la__ends .lbl{font-size:13px;letter-spacing:.06em;font-weight:600;color:#5c564c}
+.la__clock{font-family:var(--font-disp);font-weight:800;font-size:52px;color:var(--red);letter-spacing:.02em;line-height:1;margin-top:4px}
+
+/* bid card */
+.bidcard{background:var(--cream);border-radius:22px;padding:30px}
+.bidcard h3{font-size:16px;font-weight:600;margin-bottom:16px}
+.bidcard__amt{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.bidcard__amt b{font-family:var(--font-disp);font-weight:800;font-size:48px;letter-spacing:-.02em}
+.stepper{display:flex;gap:10px}
+.stepper button{width:50px;height:50px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:22px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.stepper button:hover{border-color:var(--ink)}
+.bidcard__min{font-size:14px;color:#5c564c;margin-bottom:22px}
+.bidcard__min b{color:var(--ink)}
+.bidbtn{width:100%;background:#fff;border:1px solid var(--line);border-radius:999px;padding:18px;font-weight:700;font-size:16px;margin-bottom:14px}
+.bidbtn:hover{border-color:var(--ink)}
+.quickbids{display:flex;gap:12px;margin-bottom:14px}
+.quickbids button{flex:1;border:1px solid var(--line);border-radius:999px;padding:15px 0;font-weight:600;font-size:15px;background:#fff}
+.quickbids button:hover{border-color:var(--ink)}
+.buybtn{width:100%;background:var(--ink);color:#fff;border-radius:999px;padding:19px;font-weight:700;font-size:16px;letter-spacing:.02em}
+.buybtn:hover{background:#000}
+.avs{display:flex;align-items:center;margin-top:20px}
+.av{width:30px;height:30px;border-radius:50%;border:2px solid var(--cream);margin-left:-8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.av:first-child{margin-left:0}
+.avs .more{margin-left:10px;font-size:14px;color:#5c564c;font-weight:600}
+
+/* detail block */
+.detail{background:var(--cream);border-radius:22px;padding:34px;display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:38px}
+.dcol h4{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:18px}
+.dcol h4 svg{width:13px;height:13px;opacity:.5}
+.dmetric{margin-bottom:18px}
+.dmetric .k{font-size:13px;color:#8c867b}
+.dmetric .strike{text-decoration:line-through;color:#a39a8c;font-size:15px}
+.dmetric .v{font-family:var(--font-disp);font-weight:800;font-size:26px;letter-spacing:-.01em}
+.dmetric .sm{font-size:12px;color:#a39a8c}
+.green-t{color:var(--green-ink);font-weight:700}
+.minicards{display:flex;gap:12px;margin-top:8px}
+.minicard{flex:1;background:var(--ink);color:#fff;border-radius:12px;padding:14px}
+.minicard .k{font-size:12px;color:#b7b0a4}
+.minicard .v{font-family:var(--font-disp);font-weight:800;font-size:20px;margin-top:4px}
+
+/* price insights */
+.pinsights{grid-column:1;background:#fff;border-radius:16px;padding:22px;margin-top:24px;border:1px solid var(--line-soft)}
+.pinsights h5{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:16px}
+.pinsights__row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.pi{font-size:12px;color:#8c867b}
+.pi b{display:block;font-family:var(--font-disp);font-weight:800;font-size:22px;color:var(--ink)}
+.pibar{height:4px;background:linear-gradient(90deg,var(--ink) 60%,#d8ccba 60%);border-radius:3px;margin-top:14px}
+.pibar-lbls{display:flex;justify-content:space-between;font-size:11px;color:#a39a8c;margin-top:6px}
+
+/* bid history */
+.bh h4{font-size:14px;font-weight:700;margin-bottom:14px}
+.chart{position:relative;background:#fff;border-radius:14px;padding:16px;border:1px solid var(--line-soft)}
+.chart svg{width:100%;height:170px;display:block}
+.chart__peak{position:absolute;top:10px;right:14px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;padding:5px 10px;border-radius:7px}
+.chart__x{display:flex;justify-content:space-between;font-size:11px;color:#a39a8c;margin-top:6px;padding:0 4px}
+.bhtable{margin-top:8px}
+.bhrow{display:flex;align-items:center;justify-content:space-between;padding:13px 2px;border-bottom:1px solid var(--line-soft);font-size:14px}
+.bhrow .who{color:#5c564c}
+.bhrow .when{color:#a39a8c}
+.bhrow .amt{font-weight:700}
+.viewall{font-weight:700;font-size:14px;margin-top:14px;display:inline-block;border-bottom:2px solid var(--ink);padding-bottom:2px}
+
+/* seller info */
+.seller h4{font-size:14px;font-weight:700;margin-bottom:16px}
+.seller__head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.seller__av{width:46px;height:46px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--font-disp)}
+.seller__name{font-weight:700;display:flex;align-items:center;gap:6px}
+.seller__name svg{width:14px;height:14px;color:var(--green-ink)}
+.seller__sub{font-size:12px;color:#8c867b}
+.seller__stats{display:flex;gap:20px;margin-bottom:18px}
+.seller__stats .s b{font-family:var(--font-disp);font-weight:800;font-size:22px;display:block}
+.seller__stats .s span{font-size:11px;color:#8c867b}
+.viewprofile{width:100%;background:var(--ink);color:#fff;border-radius:999px;padding:14px;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:22px}
+.badgelist h5{font-size:13px;font-weight:700;margin:18px 0 12px}
+.badgelist .b{display:flex;align-items:center;gap:9px;font-size:13px;color:#4f4a40;padding:5px 0}
+.badgelist .b svg{width:15px;height:15px;color:var(--green-ink);flex:none}
+
+/* you may also like */
+.ymal{text-align:center;margin:64px 0 36px}
+.ymal h2{font-family:var(--font-disp);font-weight:800;font-size:48px;letter-spacing:-.02em}
+.relgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.relcard{background:var(--cream);border-radius:14px;overflow:hidden;border:1px solid var(--line-soft)}
+.relcard__img{aspect-ratio:1/.92;position:relative;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8);font-family:var(--font-disp);font-weight:700;font-size:13px}
+.relcard__img .livep{position:absolute;top:12px;left:12px}
+.relcard__body{padding:16px}
+.relcard__name{font-family:var(--font-disp);font-weight:800;font-size:16px;letter-spacing:.02em;text-transform:uppercase}
+.relcard__price{font-family:var(--font-disp);font-weight:800;font-size:24px;margin:8px 0 12px}
+.relcard__meta{display:flex;gap:18px;font-size:13px;color:#5c564c;margin-bottom:14px}
+.relcard__meta .it{display:flex;align-items:center;gap:6px}
+.relcard__meta svg{width:14px;height:14px}
+.relcard__meta .tm{color:var(--red);font-weight:600}
+.placebid{width:100%;background:var(--ink);color:#fff;border-radius:999px;padding:14px;font-weight:600;font-size:14px}
+
+@media (max-width:1100px){
+  .la__hero,.detail,.relgrid{grid-template-columns:1fr}
+  .relgrid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">HYPE.</a>
+    <nav class="nav__links">
+      <a href="index.html">HOME</a>
+      <a href="shop.html">SHOP</a>
+      <a href="live-auctions.html" class="active">LIVE AUCTIONS</a>
+      <a href="sell-with-us.html">SELL WITH US</a>
+      <a href="#">ABOUT</a>
+      <a href="#">CONTACT</a>
+    </nav>
+    <div class="nav__cta">
+      <a href="#" class="btn btn--ghost">LOGIN</a>
+      <a href="#" class="btn btn--light">SIGN UP</a>
+    </div>
+  </div>
+</header>
+
+<div class="crumb"><div class="crumb__inner"><a href="index.html">Home</a><span class="sep">/</span><a href="live-auctions.html">Live Auctions</a><span class="sep">/</span><a href="#">Sneakers</a><span class="sep">/</span><span class="cur">Nike Air Jordan 1 Retro High OG</span></div></div>
+
+<main class="la">
+  <div class="la__inner">
+
+    <!-- HERO -->
+    <div class="la__hero">
+      <div class="la__img"><span class="livep" style="position:absolute;top:16px;left:16px"><span class="dot"></span>LIVE</span><span class="pl">Air Jordan 1<br>'Chicago'</span></div>
+
+      <div class="la__mid">
+        <span class="livep"><span class="dot"></span>LIVE</span>
+        <h1>Air Jordan 1<br>Retro High OG<br>'Chicago'</h1>
+        <div class="la__brandrow">Nike <span class="vpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>HYPE Verified</span></div>
+        <div class="la__spec">Condition: <b>DS</b> &nbsp;|&nbsp; Size: <b>UK 9 / US 10</b></div>
+        <div class="la__counts">
+          <span class="it">Current Bid</span>
+          <span class="it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg> <b>1425</b> Watching</span>
+          <span class="it"><b>450</b> Active bidders</span>
+        </div>
+        <div class="la__inc">+ ₹500 <span>Next minimum bid</span></div>
+        <div class="la__ends">
+          <div class="lbl">Ends In</div>
+          <div class="la__clock">00 : 14 : 21</div>
+        </div>
+      </div>
+
+      <div class="bidcard">
+        <h3>Place Your Bid</h3>
+        <div class="bidcard__amt">
+          <b>₹28,800</b>
+          <div class="stepper"><button>−</button><button>+</button></div>
+        </div>
+        <div class="bidcard__min">Minimum next: <b>Rs. 228,800</b></div>
+        <button class="bidbtn">PLACE BID</button>
+        <div class="quickbids"><button>+300</button><button>+500</button><button>+1000</button></div>
+        <button class="buybtn">BUY NOW</button>
+        <div class="avs">
+          <span class="av" style="background:#e05a3a">A</span>
+          <span class="av" style="background:#e08a3a">B</span>
+          <span class="av" style="background:#2f9e5b">C</span>
+          <span class="av" style="background:#3a7be0">D</span>
+          <span class="av" style="background:#7b3ae0">E</span>
+          <span class="av" style="background:#c03a8a">F</span>
+          <span class="av" style="background:#e0a93a">G</span>
+          <span class="more">+16</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL BLOCK -->
+    <div class="detail">
+      <!-- left details -->
+      <div class="dcol">
+        <h4>Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></h4>
+        <div class="dmetric"><div class="k">Market</div><div class="strike">₹39,500</div><div class="v">₹31,500</div></div>
+        <div class="dmetric"><div class="k">Average Sale Price</div><div class="v">₹28,250</div><div class="sm">Relative bids to sales</div></div>
+        <div class="dmetric"><div class="k">Hype Index</div><div class="v green-t" style="font-size:22px">High</div></div>
+        <div class="minicards">
+          <div class="minicard"><div class="k">Grant Dodge</div><div class="v">₹28,500</div></div>
+          <div class="minicard"><div class="k">FSID Ries</div><div class="v">₹32,000</div></div>
+        </div>
+      </div>
+
+      <!-- middle bid history -->
+      <div class="dcol bh">
+        <h4>Bid History</h4>
+        <div class="chart">
+          <span class="chart__peak">₹23,500</span>
+          <svg viewBox="0 0 400 170" preserveAspectRatio="none">
+            <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8543b" stop-opacity=".35"/><stop offset="1" stop-color="#e8543b" stop-opacity="0"/></linearGradient></defs>
+            <line x1="0" y1="30" x2="400" y2="30" stroke="#eee"/><line x1="0" y1="70" x2="400" y2="70" stroke="#eee"/><line x1="0" y1="110" x2="400" y2="110" stroke="#eee"/><line x1="0" y1="150" x2="400" y2="150" stroke="#eee"/>
+            <path d="M0 130 L70 120 L110 135 L160 95 L220 85 L300 55 L360 40 L400 25 L400 170 L0 170 Z" fill="url(#g)"/>
+            <path d="M0 130 L70 120 L110 135 L160 95 L220 85 L300 55 L360 40 L400 25" fill="none" stroke="#e8543b" stroke-width="2.5"/>
+            <circle cx="160" cy="95" r="4" fill="#e8543b"/><circle cx="220" cy="85" r="4" fill="#e8543b"/><circle cx="300" cy="55" r="4" fill="#e8543b"/><circle cx="400" cy="25" r="4.5" fill="#0c0b0a"/>
+          </svg>
+          <div class="chart__x"><span>10:00 AM</span><span>10:00 PM</span><span>02:00 PM</span><span>Now</span></div>
+        </div>
+        <div class="bhtable">
+          <div class="bhrow"><span class="who">Bidder ID</span><span class="when">2 mins ago</span><span class="amt">₹39,500</span></div>
+          <div class="bhrow"><span class="who">Bidder ID</span><span class="when">5 mins ago</span><span class="amt">₹32,550</span></div>
+          <div class="bhrow"><span class="who">Bidder ID</span><span class="when">7 mins ago</span><span class="amt">₹28,550</span></div>
+          <div class="bhrow"><span class="who">13 mins ago</span><span class="when"></span><span class="amt">₹38,500</span></div>
+        </div>
+        <a href="#" class="viewall">View All Bids</a>
+      </div>
+
+      <!-- right seller -->
+      <div class="dcol seller">
+        <h4>Seller Info</h4>
+        <div class="seller__head">
+          <div class="seller__av">SN</div>
+          <div>
+            <div class="seller__name">SneakerNation <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></div>
+            <div class="seller__sub">2/1 ★ 126 waitlisted</div>
+          </div>
+        </div>
+        <div class="seller__stats">
+          <div class="s"><b>98%</b><span>Item Sold</span></div>
+          <div class="s"><b>98%</b><span>Positive Feedback</span></div>
+          <div class="s"><b>17</b><span>Pairings</span></div>
+        </div>
+        <button class="viewprofile">VIEW PROFILE →</button>
+        <div class="badgelist">
+          <h5>Seller Badge</h5>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Identity Authenticity ✓</div>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Stocks 3Shipper v1</div>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Onipaid Lots Included</div>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Certified Settlements</div>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Buyer Price Shipping Res</div>
+        </div>
+        <div class="badgelist">
+          <h5>Shipping &amp; Delivery</h5>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Ships to India</div>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>3–8 delivery 7-days</div>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Onipaid Lots Included</div>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Vr-verified Settlements</div>
+          <div class="b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Buyer Price Shipping Res</div>
+        </div>
+      </div>
+
+      <!-- price insights spanning left under details -->
+      <div class="pinsights">
+        <h5>Price Insights <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></h5>
+        <div class="pinsights__row">
+          <div class="pi">Market<b>₹31,500</b><span style="color:#a39a8c;font-weight:500">Low: ₹19,550</span></div>
+          <div class="pi">Hype Index<b>01</b><span style="color:#a39a8c;font-weight:500">▲ ₹233,600</span></div>
+          <div class="pi">Average Sale Price<b>₹28,250</b><span style="color:#a39a8c;font-weight:500">Based on last 30 sales</span></div>
+        </div>
+        <div class="pibar"></div>
+        <div class="pibar-lbls"><span>19,350</span><span>28,550</span><span>2,3,460</span></div>
+      </div>
+    </div>
+
+    <!-- YOU MAY ALSO LIKE -->
+    <div class="ymal"><h2>You May Also Like</h2></div>
+    <div class="relgrid" id="relgrid"></div>
+
+  </div>
+</main>
+
+<div id="footer"></div>
+</div>
+
+<script>
+const REL=[
+  {name:"Nike Dunk Low Panda",price:"₹12,500",grad:"linear-gradient(150deg,#3a2546,#160a1e)"},
+  {name:"Noircore Hoodie",price:"₹10,500",grad:"linear-gradient(150deg,#4a4036,#1b1611)"},
+  {name:"Obsidian Frames",price:"₹7,500",grad:"linear-gradient(150deg,#caa46a,#5a4324)"},
+  {name:"Obsidian Frames",price:"₹7,500",grad:"linear-gradient(150deg,#e6c7a8,#b58a63)"},
+];
+const eye=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>`;
+const clock=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`;
+document.getElementById('relgrid').innerHTML=REL.map(r=>`
+  <div class="relcard">
+    <div class="relcard__img" style="background:${r.grad}"><span class="livep"><span class="dot"></span>LIVE</span>${r.name}</div>
+    <div class="relcard__body">
+      <div class="relcard__name">${r.name}</div>
+      <div class="relcard__price">${r.price}</div>
+      <div class="relcard__meta"><span class="it tm">${clock}02:14</span><span class="it">${eye}125</span></div>
+      <button class="placebid">Place Bid</button>
+    </div>
+  </div>`).join('');
+</script>
+<script src="footer.js"></script>
+</body>
+</html>
