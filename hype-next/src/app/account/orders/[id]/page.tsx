@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { use } from "react";
+import { useParams } from "next/navigation";
 import { ArrowLeft, Download, X, MapPin, CreditCard, HelpCircle, Star, RotateCw } from "lucide-react";
 import { AccountShell } from "@/components/account/account-shell";
 import { StatusTimeline } from "@/components/shared/status-timeline";
@@ -26,8 +26,9 @@ const ORDER = {
   payment: "Cash on Delivery",
 };
 
-export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function OrderDetailPage() {
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
   const subtotal = ORDER.items.reduce((s, i) => s + i.price * i.qty, 0);
   const taxes = Math.round(subtotal * 0.18);
   const total = subtotal + taxes;
