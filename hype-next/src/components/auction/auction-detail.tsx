@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Check, Plus, Minus, Eye, Users, Gavel, ArrowUpRight, Award, Truck } from "lucide-react";
 import { motion } from "framer-motion";
@@ -242,12 +243,12 @@ export function AuctionDetailsRow() {
             </div>
           ))}
         </div>
-        <a
-          href="#"
+        <Link
+          href="/dashboard/bids"
           className="mt-3.5 inline-block border-b-2 border-ink pb-0.5 text-[14px] font-bold"
         >
           View All Bids
-        </a>
+        </Link>
       </div>
 
       {/* Seller */}

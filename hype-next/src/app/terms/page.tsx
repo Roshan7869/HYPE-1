@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { SiteHeader } from "@/components/layout/site-header";
 import { Footer } from "@/components/layout/footer";
 
 export const metadata = { title: "Terms of Service — HYPE" };
@@ -21,17 +22,7 @@ const SECTIONS = [
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-sand">
-      <header className="bg-ink text-white">
-        <div className="wrap flex h-[88px] items-center gap-8">
-          <Link href="/" className="font-disp text-[30px] font-extrabold tracking-tighter2 text-white">
-            HYPE.
-          </Link>
-          <nav className="ml-auto hidden gap-6 md:flex">
-            <Link href="/about" className="text-[14px] font-semibold uppercase tracking-[0.06em] text-[#e7e2da] hover:text-white">About</Link>
-            <Link href="/contact" className="text-[14px] font-semibold uppercase tracking-[0.06em] text-[#e7e2da] hover:text-white">Contact</Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="bg-ink py-20 text-white">
         <div className="wrap">

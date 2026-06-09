@@ -8,20 +8,22 @@ export const SITE_CONFIG = {
 } as const;
 
 export const NAV_LINKS = [
-  { label: "Auctions", href: "/" },
+  { label: "Home", href: "/" },
+  { label: "Shop", href: "/shop" },
   { label: "Live", href: "/live-auctions" },
-  { label: "Upcoming", href: "#upcoming" },
-  { label: "Sold", href: "#sold" },
-  { label: "Categories", href: "#categories" },
+  { label: "Upcoming", href: "/live-auctions?status=upcoming" },
+  { label: "Sold", href: "/live-auctions?status=sold" },
+  { label: "Sell", href: "/sell-with-us" },
+  { label: "About", href: "/about" },
 ] as const;
 
 export const FOOTER_LINKS = {
   market: [
     { label: "Auctions", href: "/live-auctions" },
     { label: "Live", href: "/live-auctions" },
-    { label: "Upcoming", href: "#upcoming" },
-    { label: "Sold", href: "#sold" },
-    { label: "Categories", href: "#categories" },
+    { label: "Upcoming", href: "/live-auctions?status=upcoming" },
+    { label: "Sold", href: "/live-auctions?status=sold" },
+    { label: "Categories", href: "/shop" },
   ],
   sell: [
     { label: "Sell With Us", href: "/sell-with-us" },
@@ -29,17 +31,23 @@ export const FOOTER_LINKS = {
     { label: "Seller Guide", href: "/sell-with-us#guide" },
     { label: "Payouts", href: "/dashboard/payouts" },
   ],
+  account: [
+    { label: "My Orders", href: "/account/orders" },
+    { label: "My Bids", href: "/account/bids" },
+    { label: "Wishlist", href: "/account/wishlist" },
+    { label: "Profile", href: "/account/profile" },
+  ],
   company: [
-    { label: "About Us", href: "#" },
-    { label: "Careers", href: "#" },
-    { label: "Blog", href: "#" },
-    { label: "Press", href: "#" },
+    { label: "About Us", href: "/about" },
+    { label: "Contact Us", href: "/contact" },
+    { label: "Help Center", href: "/faq" },
+    { label: "Careers", href: "/about" },
   ],
   support: [
-    { label: "Help Center", href: "#" },
-    { label: "Contact Us", href: "#" },
-    { label: "Terms", href: "#" },
-    { label: "Privacy Policy", href: "#" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Contact", href: "/contact" },
+    { label: "Terms", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
   ],
 } as const;
 

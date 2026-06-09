@@ -16,6 +16,8 @@ interface AnimatedCounterProps {
 /**
  * Count-up number animation triggered when scrolled into view.
  * Uses requestAnimationFrame for smooth easing.
+ * Renders the final value on SSR / first paint to avoid layout shift,
+ * then animates from `from` to `to` once the element is in view.
  */
 export function AnimatedCounter({
   to,
@@ -28,16 +30,19 @@ export function AnimatedCounter({
 }: AnimatedCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
-  const [value, setValue] = useState(from);
+  // SSR + first paint: show final value (no animation) so users never see "0".
+  const [value, setValue] = useState(to);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || hasAnimated.current) return;
+    hasAnimated.current = true;
     let raf: number;
     const start = performance.now();
+    setValue(from);
     const animate = (now: number) => {
       const elapsed = (now - start) / 1000;
       const t = Math.min(1, elapsed / duration);
-      // ease-out cubic
       const eased = 1 - Math.pow(1 - t, 3);
       setValue(from + (to - from) * eased);
       if (t < 1) raf = requestAnimationFrame(animate);

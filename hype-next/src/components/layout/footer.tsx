@@ -2,7 +2,7 @@
 
 import { AtSign, Camera, Globe } from "lucide-react";
 import Link from "next/link";
-import { FOOTER_LINKS, SITE_CONFIG } from "@/lib/constants";
+import { FOOTER_LINKS } from "@/lib/constants";
 
 /**
  * Detailed footer used on the home page. 5-column layout with brand,
@@ -11,7 +11,7 @@ import { FOOTER_LINKS, SITE_CONFIG } from "@/lib/constants";
 export function FooterDetailed() {
   return (
     <footer className="bg-ink text-[#cdc7bd]">
-      <div className="wrap grid gap-12 py-[84px] md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
+      <div className="wrap grid gap-12 py-[84px] md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr_1fr]">
         <div>
           <div className="mb-[18px] font-disp text-[38px] font-extrabold tracking-tighter2 text-[#efe9df]">
             HYPE.
@@ -19,19 +19,20 @@ export function FooterDetailed() {
           <p className="mb-[18px] text-[15px] text-[#b7b0a4]">The market decides.</p>
           <p className="text-[13px] text-[#7c756a]">© 2024 HYPE. All rights reserved.</p>
           <div className="mt-6 flex gap-4">
-            <Link href="#" aria-label="Instagram">
+            <Link href="/about" aria-label="Instagram">
               <Camera className="h-5 w-5 text-[#b7b0a4] hover:text-white" />
             </Link>
-            <Link href="#" aria-label="Twitter">
+            <Link href="/about" aria-label="Twitter">
               <AtSign className="h-5 w-5 text-[#b7b0a4] hover:text-white" />
             </Link>
-            <Link href="#" aria-label="YouTube">
+            <Link href="/about" aria-label="YouTube">
               <Globe className="h-5 w-5 text-[#b7b0a4] hover:text-white" />
             </Link>
           </div>
         </div>
 
         <FooterCol title="Market" links={FOOTER_LINKS.market} />
+        <FooterCol title="Account" links={FOOTER_LINKS.account} />
         <FooterCol title="Sell" links={FOOTER_LINKS.sell} />
         <FooterCol title="Company" links={FOOTER_LINKS.company} />
         <FooterCol title="Support" links={FOOTER_LINKS.support} />
@@ -58,7 +59,7 @@ export function FooterDetailed() {
 export function Footer() {
   return (
     <footer className="bg-ink text-[#cdc7bd]">
-      <div className="wrap grid gap-12 py-[84px] md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="wrap grid gap-12 py-[84px] md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
         <div>
           <div className="mb-[18px] font-disp text-[38px] font-extrabold tracking-tighter2 text-[#efe9df]">
             HYPE.
@@ -70,21 +71,10 @@ export function Footer() {
           </p>
         </div>
 
-        <FooterCol title="Quick Links" links={FOOTER_LINKS.market.slice(0, 5)} />
-        <div>
-          <h4 className="mb-6 font-disp text-[20px] font-extrabold tracking-[0.02em] text-[#efe9df]">
-            Social Links
-          </h4>
-          <p className="text-[15px] uppercase leading-[1.6] tracking-[0.04em] text-[#b7b0a4]">
-            <span className="font-bold text-[#efe9df]">{SITE_CONFIG.twitter}</span> ON X AND OTHER
-            PLATFORMS
-          </p>
-        </div>
-        <div>
-          <h4 className="mb-6 font-disp text-[20px] font-extrabold tracking-[0.02em] text-[#efe9df]">
-            Download Our App
-          </h4>
-        </div>
+        <FooterCol title="Market" links={FOOTER_LINKS.market.slice(0, 5)} />
+        <FooterCol title="Account" links={FOOTER_LINKS.account} />
+        <FooterCol title="Company" links={FOOTER_LINKS.company} />
+        <FooterCol title="Support" links={FOOTER_LINKS.support} />
       </div>
 
       <div className="wrap flex flex-col items-start justify-between gap-4 py-8 md:flex-row md:items-end">
@@ -94,7 +84,11 @@ export function Footer() {
             All rights reserved
           </small>
         </div>
-        <div className="text-[11px] uppercase tracking-[0.1em] text-[#7c756a]">With policy links</div>
+        <div className="flex gap-4 text-[11px] uppercase tracking-[0.1em] text-[#7c756a]">
+          <Link href="/terms" className="hover:text-white">Terms</Link>
+          <Link href="/privacy" className="hover:text-white">Privacy</Link>
+          <Link href="/contact" className="hover:text-white">Contact</Link>
+        </div>
       </div>
     </footer>
   );

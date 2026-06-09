@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Mail, Phone, MapPin, AtSign, Clock, Zap, Send, CheckCircle2, Tag, CreditCard, ShieldCheck, ChevronRight } from "lucide-react";
+import { SiteHeader } from "@/components/layout/site-header";
 import { Footer } from "@/components/layout/footer";
 import { Input } from "@/components/ui/input";
 
@@ -10,7 +11,7 @@ const INFO = [
   { icon: Mail, label: "EMAIL", value: "support@thehypecompany.in", href: "mailto:support@thehypecompany.in" },
   { icon: Phone, label: "PHONE", value: "+91 22 1234 5678" },
   { icon: MapPin, label: "ADDRESS", value: "HYPE Pvt. Ltd., 123 MG Road, Fort, Mumbai, Maharashtra 400001" },
-  { icon: AtSign, label: "SOCIAL", value: "@hypeindiahq", href: "#" },
+  { icon: AtSign, label: "SOCIAL", value: "@hypeindiahq", href: "https://instagram.com/hypeindiahq" },
   { icon: Clock, label: "HOURS", value: "Mon – Sat: 10 AM – 7 PM IST" },
   { icon: Zap, label: "RESPONSE", value: "Within 24 hours" },
 ];
@@ -38,11 +39,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-sand">
-      <header className="bg-ink text-white">
-        <div className="wrap flex h-[88px] items-center">
-          <Link href="/" className="font-disp text-[30px] font-extrabold tracking-tighter2 text-white">HYPE.</Link>
-        </div>
-      </header>
+      <SiteHeader />
 
       <div className="wrap pb-20 pt-10">
         <nav className="mb-6 flex items-center gap-2 text-[14px] text-muted">

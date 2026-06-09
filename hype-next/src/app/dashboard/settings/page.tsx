@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import {
   Wallet,
@@ -150,9 +151,9 @@ function PayoutsSection({ onSave }: { onSave: () => void }) {
         <div className="rounded-hype-lg border border-line-soft bg-white p-6">
           <div className="flex items-center justify-between">
             <h2 className="font-disp text-[20px] font-extrabold">Payout History</h2>
-            <a href="#" className="text-[12px] font-bold text-ink hover:underline">
+            <Link href="/dashboard/payouts" className="text-[12px] font-bold text-ink hover:underline">
               View all
-            </a>
+            </Link>
           </div>
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-[520px] text-left text-[14px]">

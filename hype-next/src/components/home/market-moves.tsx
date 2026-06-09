@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Zap, ArrowRight } from "lucide-react";
 import { MARKET_MOVES } from "@/lib/constants";
 
@@ -19,13 +20,13 @@ export function MarketMoves() {
             </span>
           ))}
         </div>
-        <a
-          href="#"
+        <Link
+          href="/live-auctions"
           className="flex flex-none items-center gap-2.5 border-l border-line pl-6 font-disp text-[13px] font-extrabold uppercase tracking-[0.08em] text-ink transition-colors hover:text-hype-gold"
         >
           View Market
           <ArrowRight className="h-3.5 w-[22px]" strokeWidth={1.8} />
-        </a>
+        </Link>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ShieldCheck, ChevronRight } from "lucide-react";
+import { SiteHeader } from "@/components/layout/site-header";
 import { Footer } from "@/components/layout/footer";
 
 export const metadata = { title: "Privacy Policy — HYPE" };
@@ -21,11 +22,7 @@ const SECTIONS = [
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-sand">
-      <header className="bg-ink text-white">
-        <div className="wrap flex h-[88px] items-center gap-8">
-          <Link href="/" className="font-disp text-[30px] font-extrabold tracking-tighter2 text-white">HYPE.</Link>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="bg-ink py-20 text-white">
         <div className="wrap">

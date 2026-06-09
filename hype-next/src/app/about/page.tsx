@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Search, CheckCircle2, Award, Truck, Shield, Eye, Users, ArrowRight, AtSign, Globe } from "lucide-react";
+import { SiteHeader } from "@/components/layout/site-header";
 import { Footer } from "@/components/layout/footer";
 
 export const metadata = { title: "About HYPE — Bid. Win. Repeat." };
@@ -34,11 +35,7 @@ const TEAM = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-sand">
-      <header className="bg-ink text-white">
-        <div className="wrap flex h-[88px] items-center">
-          <Link href="/" className="font-disp text-[30px] font-extrabold tracking-tighter2 text-white">HYPE.</Link>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="bg-ink py-24 text-white">
         <div className="wrap text-center">

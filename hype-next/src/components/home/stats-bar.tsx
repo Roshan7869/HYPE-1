@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Activity, Users, Coins, ArrowRight, type LucideIcon } from "lucide-react";
 import { STATS } from "@/lib/constants";
 import { AnimatedCounter } from "@/components/shared/animated-counter";
@@ -29,14 +30,14 @@ export function StatsBar() {
           }
           label="Total Volume"
         />
-        <a
-          href="#"
+        <Link
+          href="/live-auctions"
           className="ml-auto flex items-center gap-3 font-disp text-[18px] font-extrabold uppercase tracking-[0.06em] text-ink transition-colors hover:text-hype-gold"
         >
           <Activity className="h-[22px] w-[22px]" strokeWidth={2} />
           Market Pulse
           <ArrowRight className="h-[22px] w-[22px]" strokeWidth={2} />
-        </a>
+        </Link>
       </div>
     </section>
   );

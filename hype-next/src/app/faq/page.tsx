@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Search, Plus, Minus, HelpCircle } from "lucide-react";
+import { SiteHeader } from "@/components/layout/site-header";
 import { Footer } from "@/components/layout/footer";
 import { cn } from "@/lib/utils";
 
@@ -56,15 +57,7 @@ export default function FaqPage() {
 
   return (
     <div className="min-h-screen bg-sand">
-      <header className="bg-ink text-white">
-        <div className="wrap flex h-[88px] items-center gap-8">
-          <Link href="/" className="font-disp text-[30px] font-extrabold tracking-tighter2 text-white">HYPE.</Link>
-          <nav className="ml-auto hidden gap-6 md:flex">
-            <Link href="/contact" className="text-[14px] font-semibold uppercase tracking-[0.06em] text-[#e7e2da] hover:text-white">Contact</Link>
-            <Link href="/about" className="text-[14px] font-semibold uppercase tracking-[0.06em] text-[#e7e2da] hover:text-white">About</Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="bg-ink pb-24 pt-20 text-white">
         <div className="wrap text-center">

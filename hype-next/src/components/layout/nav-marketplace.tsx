@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Search, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -47,13 +46,13 @@ export function NavMarketplace() {
 
         <div className="ml-auto flex items-center gap-5 md:ml-0">
           <Link
-            href="#"
-            className="hidden text-[13px] font-semibold uppercase tracking-[0.08em] md:inline-block"
+            href="/login"
+            className="hidden text-[13px] font-semibold uppercase tracking-[0.08em] md:inline-block hover:text-white"
           >
             Sign in
           </Link>
           <Link
-            href="#"
+            href="/signup"
             className="hidden rounded-lg bg-cream px-6 py-[13px] text-[13px] font-bold uppercase tracking-[0.06em] text-ink hover:bg-white md:inline-block"
           >
             Register
@@ -86,12 +85,20 @@ export function NavMarketplace() {
               <span>Search auctions, items...</span>
             </div>
             <div className="flex gap-2">
-              <Button variant="ghost" size="sm" className="flex-1">
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="flex-1 rounded-lg border border-white/20 px-4 py-2.5 text-center text-[13px] font-bold uppercase tracking-[0.06em] text-white"
+              >
                 Sign in
-              </Button>
-              <Button variant="light" size="sm" className="flex-1">
+              </Link>
+              <Link
+                href="/signup"
+                onClick={() => setOpen(false)}
+                className="flex-1 rounded-lg bg-cream px-4 py-2.5 text-center text-[13px] font-bold uppercase tracking-[0.06em] text-ink"
+              >
                 Register
-              </Button>
+              </Link>
             </div>
           </div>
         </div>
