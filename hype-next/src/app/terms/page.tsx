@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Footer } from "@/components/layout/footer";
+import { SectionReveal } from "@/components/motion";
 
 export const metadata = { title: "Terms of Service — HYPE" };
 
@@ -24,7 +25,8 @@ export default function TermsPage() {
     <div className="min-h-screen bg-sand">
       <SiteHeader />
 
-      <section className="bg-ink py-20 text-white">
+      <SectionReveal>
+        <section className="bg-ink py-20 text-white">
         <div className="wrap">
           <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-[#a39a8c]">Legal</p>
           <h1 className="mt-3 font-disp text-[48px] font-extrabold leading-[1.05] tracking-tighter2 md:text-[64px]">
@@ -33,6 +35,9 @@ export default function TermsPage() {
           <p className="mt-3 text-[15px] text-[#cfc8bb]">Last updated: 9 June 2026</p>
         </div>
       </section>
+      </SectionReveal>
+
+      <SectionReveal>
 
       <div className="wrap grid grid-cols-1 gap-12 py-12 lg:grid-cols-[260px_1fr]">
         <aside className="lg:sticky lg:top-6 lg:self-start">
@@ -71,6 +76,7 @@ export default function TermsPage() {
           </div>
         </article>
       </div>
+      </SectionReveal>
 
       <Footer />
     </div>

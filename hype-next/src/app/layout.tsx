@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { fontDisp, fontBody, fontPoster } from "@/lib/fonts";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
+import { ToastProvider } from "@/components/motion";
+import { PageTransition } from "@/components/motion";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,7 +36,11 @@ export default function RootLayout({
       className={`${fontDisp.variable} ${fontBody.variable} ${fontPoster.variable}`}
     >
       <body className="bg-sand font-body text-ink antialiased">
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <SmoothScrollProvider>
+          <ToastProvider>
+            <PageTransition>{children}</PageTransition>
+          </ToastProvider>
+        </SmoothScrollProvider>
       </body>
     </html>
   );

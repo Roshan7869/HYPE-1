@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { Lock, ShieldCheck, Plus, Banknote, QrCode, CreditCard, X, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { fadeUp, stagger, reduceMotion } from "@/lib/motion";
 import { cn, formatINR } from "@/lib/utils";
 
 type Address = {
@@ -93,12 +95,22 @@ export default function CheckoutPage() {
       </header>
 
       <div className="wrap pb-20">
-        <div className="flex items-center gap-2 text-[13px] text-muted">
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={reduceMotion({ duration: 0.4, ease: [0.16, 1, 0.3, 1] })}
+          className="flex items-center gap-2 text-[13px] text-muted"
+        >
           <ShieldCheck className="h-4 w-4 text-green-600" />
           <span>SSL Encrypted · 100% Secure</span>
-        </div>
+        </motion.div>
 
-        <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
+        <motion.div
+          className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]"
+          variants={stagger(0.1, 0.1)}
+          initial="hidden"
+          animate="show"
+        >
           <div>
             <Section n={1} title="Shipping Address" done={Boolean(addressId)}>
               <div className="space-y-3">
@@ -171,7 +183,7 @@ export default function CheckoutPage() {
                   subtitle={upiApp ? `Pay via ${UPI_APPS.find((u) => u.id === upiApp)?.name}` : "Google Pay, PhonePe, Paytm, BHIM"}
                 >
                   {payment === "upi" && (
-                    <div className="mt-4 border-t border-line pt-4">
+                    <div>
                       <p className="mb-3 text-[13px] font-semibold uppercase tracking-[0.18em] text-muted">Select app</p>
                       <div className="grid grid-cols-4 gap-3">
                         {UPI_APPS.map((u) => (
@@ -194,7 +206,7 @@ export default function CheckoutPage() {
                 </PaymentCard>
                 <PaymentCard selected={payment === "card"} onSelect={() => setPayment("card")} icon={CreditCard} title="Credit / Debit Card" subtitle="Visa, Mastercard, Rupay, Amex">
                   {payment === "card" && (
-                    <div className="mt-4 space-y-3 border-t border-line pt-4">
+                    <div className="space-y-3">
                       <Input placeholder="Card number" inputMode="numeric" />
                       <Input placeholder="Name on card" />
                       <div className="grid grid-cols-2 gap-3">
@@ -251,7 +263,12 @@ export default function CheckoutPage() {
             </Section>
           </div>
 
-          <aside className="lg:sticky lg:top-[100px] lg:self-start">
+          <motion.aside
+            className="lg:sticky lg:top-[100px] lg:self-start"
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+          >
             <div className="rounded-[20px] border border-line bg-white p-8">
               <h2 className="font-disp text-[20px] font-extrabold tracking-tighter2">Order Summary</h2>
               <div className="mt-5 space-y-3">
@@ -277,15 +294,14 @@ export default function CheckoutPage() {
                 <span className="font-disp text-[24px] font-extrabold">{formatINR(grandTotal)}</span>
               </div>
             </div>
-          </aside>
-        </div>
+          </motion.aside>
+        </motion.div>
       </div>
 
       {showAdd && <AddressFormModal onClose={() => setShowAdd(false)} onSave={() => { setAddressId("a-new"); setShowAdd(false); }} />}
     </div>
   );
 }
-
 function Section({ n, title, done, children }: { n: number; title: string; done?: boolean; children: React.ReactNode }) {
   return (
     <section className="mt-10 first:mt-0">
@@ -348,7 +364,20 @@ function PaymentCard({
         </div>
         {extra && <span className="text-[13px] font-semibold text-amber-600">{extra}</span>}
       </div>
-      {children}
+      <AnimatePresence initial={false}>
+        {children && (
+          <motion.div
+            key="payment-detail"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="pt-4">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </label>
   );
 }
@@ -364,42 +393,55 @@ function Row({ label, value }: { label: string; value: string }) {
 
 function AddressFormModal({ onClose, onSave }: { onClose: () => void; onSave: () => void }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm" onClick={onClose}>
-      <div
-        className="w-full max-w-[480px] rounded-3xl bg-white p-10"
-        onClick={(e) => e.stopPropagation()}
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={reduceMotion({ duration: 0.2 })}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm"
+        onClick={onClose}
       >
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="font-disp text-[22px] font-extrabold tracking-tighter2">Add New Address</h2>
-          <button onClick={onClose} className="text-muted hover:text-ink" aria-label="Close">
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
-            <Input placeholder="Full name" />
-            <Input placeholder="Phone" />
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.97 }}
+          transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+          className="w-full max-w-[480px] rounded-3xl bg-white p-10"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="font-disp text-[22px] font-extrabold tracking-tighter2">Add New Address</h2>
+            <button onClick={onClose} className="text-muted hover:text-ink" aria-label="Close">
+              <X className="h-5 w-5" />
+            </button>
           </div>
-          <Input placeholder="Address Line 1" />
-          <Input placeholder="Address Line 2 (optional)" />
-          <div className="grid grid-cols-2 gap-3">
-            <Input placeholder="City" />
-            <select className="h-11 rounded-md border border-line bg-cream-2 px-3 text-sm text-ink outline-none focus:border-ink focus:ring-2 focus:ring-ink/10">
-              <option>State</option>
-              {STATES.map((s) => <option key={s}>{s}</option>)}
-            </select>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <Input placeholder="Full name" />
+              <Input placeholder="Phone" />
+            </div>
+            <Input placeholder="Address Line 1" />
+            <Input placeholder="Address Line 2 (optional)" />
+            <div className="grid grid-cols-2 gap-3">
+              <Input placeholder="City" />
+              <select className="h-11 rounded-md border border-line bg-cream-2 px-3 text-sm text-ink outline-none focus:border-ink focus:ring-2 focus:ring-ink/10">
+                <option>State</option>
+                {STATES.map((s) => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+            <Input placeholder="PIN Code" inputMode="numeric" maxLength={6} />
+            <label className="flex items-center gap-2 text-[14px] text-muted">
+              <input type="checkbox" className="h-4 w-4 rounded border-line accent-ink" />
+              Set as default address
+            </label>
           </div>
-          <Input placeholder="PIN Code" inputMode="numeric" maxLength={6} />
-          <label className="flex items-center gap-2 text-[14px] text-muted">
-            <input type="checkbox" className="h-4 w-4 rounded border-line accent-ink" />
-            Set as default address
-          </label>
-        </div>
-        <div className="mt-7 flex gap-3">
-          <Button variant="outline" onClick={onClose} className="h-12 flex-1">Cancel</Button>
-          <Button onClick={onSave} className="h-12 flex-1">Save Address</Button>
-        </div>
-      </div>
-    </div>
+          <div className="mt-7 flex gap-3">
+            <Button variant="outline" onClick={onClose} className="h-12 flex-1">Cancel</Button>
+            <Button onClick={onSave} className="h-12 flex-1">Save Address</Button>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }

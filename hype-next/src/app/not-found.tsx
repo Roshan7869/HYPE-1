@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { Footer } from "@/components/layout/footer";
+import { reduceMotion } from "@/lib/motion";
 
 export default function NotFound() {
   const [q, setQ] = useState("");
@@ -16,20 +18,38 @@ export default function NotFound() {
       </header>
 
       <main className="wrap flex flex-col items-center px-4 pb-20 pt-12 text-center">
-        <p
+        <motion.p
           aria-hidden
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={reduceMotion({ duration: 0.7, ease: [0.16, 1, 0.3, 1] })}
           className="select-none font-disp text-[160px] font-extrabold leading-[0.9] tracking-tighter2 text-ink/[0.08] md:text-[200px]"
         >
           404
-        </p>
-        <h1 className="-mt-10 font-disp text-[32px] font-extrabold tracking-tighter2 text-ink md:text-[36px]">
+        </motion.p>
+        <motion.h1
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={reduceMotion({ duration: 0.5, delay: 0.1 })}
+          className="-mt-10 font-disp text-[32px] font-extrabold tracking-tighter2 text-ink md:text-[36px]"
+        >
           Page Not Found
-        </h1>
-        <p className="mt-3 max-w-md text-[15px] leading-[1.6] text-muted">
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={reduceMotion({ duration: 0.5, delay: 0.18 })}
+          className="mt-3 max-w-md text-[15px] leading-[1.6] text-muted"
+        >
           The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s get you back on track.
-        </p>
+        </motion.p>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={reduceMotion({ duration: 0.5, delay: 0.25 })}
+          className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4"
+        >
           <Link
             href="/shop"
             className="inline-flex h-12 items-center rounded-full bg-ink px-8 text-[15px] font-bold text-white transition-colors hover:bg-black"
@@ -42,7 +62,7 @@ export default function NotFound() {
           >
             Go Home
           </Link>
-        </div>
+        </motion.div>
 
         <div className="my-10 flex w-full max-w-md items-center gap-4">
           <div className="h-px flex-1 bg-line" />

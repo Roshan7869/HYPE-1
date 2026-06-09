@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordStrengthMeter, getPasswordStrength } from "@/components/auth/password-strength";
 import { OtpModal } from "@/components/auth/otp-modal";
+import { reduceMotion } from "@/lib/motion";
 
 export default function SignupPage() {
   const [showPw, setShowPw] = useState(false);
@@ -49,7 +51,12 @@ export default function SignupPage() {
 
   return (
     <AuthShell>
-      <div className="mx-auto w-full max-w-[480px] rounded-3xl border border-line bg-white px-10 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduceMotion({ duration: 0.5, ease: [0.16, 1, 0.3, 1] })}
+        className="mx-auto w-full max-w-[480px] rounded-3xl border border-line bg-white px-10 py-12"
+      >
         <h1 className="text-center font-disp text-[28px] font-extrabold tracking-tighter2 text-ink">
           Create Your Account
         </h1>
@@ -208,7 +215,7 @@ export default function SignupPage() {
             Login
           </Link>
         </p>
-      </div>
+      </motion.div>
 
       <OtpModal
         open={otpOpen}

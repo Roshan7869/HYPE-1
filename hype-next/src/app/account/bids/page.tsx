@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Clock } from "lucide-react";
 import { AccountShell } from "@/components/account/account-shell";
+import { fadeUp, stagger, reduceMotion } from "@/lib/motion";
 import { cn, formatINR } from "@/lib/utils";
 
 type Bid = {
@@ -56,41 +58,66 @@ export default function BidsPage() {
       ]}
       user={{ name: "Roshan K", email: "roshan@example.com" }}
     >
-      <div className="mb-6 flex flex-wrap items-center gap-1 border-b border-line">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            onClick={() => setTab(t.id)}
-            className={cn(
-              "flex items-center gap-2 px-5 py-3 text-[15px] font-semibold transition-colors",
-              tab === t.id
-                ? "border-b-2 border-ink text-ink"
-                : "text-muted hover:text-ink",
-            )}
-          >
-            {t.label}
-            <span
+      <LayoutGroup id="bids-tabs">
+        <div className="relative mb-6 flex flex-wrap items-center gap-1 border-b border-line">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
               className={cn(
-                "rounded-full px-2 py-0.5 text-[12px] font-bold",
-                tab === t.id ? "bg-ink text-white" : "bg-cream-3 text-muted",
+                "relative flex items-center gap-2 px-5 py-3 text-[15px] font-semibold transition-colors",
+                tab === t.id
+                  ? "text-ink"
+                  : "text-muted hover:text-ink",
               )}
             >
-              {t.n}
-            </span>
-          </button>
-        ))}
-      </div>
+              {tab === t.id && (
+                <motion.span
+                  layoutId="bids-tab-underline"
+                  className="absolute inset-x-0 bottom-[-1px] h-[2px] bg-ink"
+                  transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+                />
+              )}
+              {t.label}
+              <span
+                className={cn(
+                  "rounded-full px-2 py-0.5 text-[12px] font-bold",
+                  tab === t.id ? "bg-ink text-white" : "bg-cream-3 text-muted",
+                )}
+              >
+                {t.n}
+              </span>
+            </button>
+          ))}
+        </div>
+      </LayoutGroup>
 
-      <div className="space-y-4">
-        {visible.map((b) => (
-          <BidCard key={b.id} bid={b} />
-        ))}
+      <motion.div
+        key={tab}
+        className="space-y-4"
+        variants={stagger(0.06, 0.05)}
+        initial="hidden"
+        animate="show"
+      >
+        <AnimatePresence mode="popLayout">
+          {visible.map((b) => (
+            <motion.div
+              key={b.id}
+              variants={fadeUp}
+              exit={{ opacity: 0, y: -8 }}
+              layout
+              transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+            >
+              <BidCard bid={b} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
         {visible.length === 0 && (
           <div className="rounded-hype-lg border border-line bg-white p-12 text-center">
             <p className="text-[15px] text-muted">No bids in this tab yet.</p>
           </div>
         )}
-      </div>
+      </motion.div>
     </AccountShell>
   );
 }

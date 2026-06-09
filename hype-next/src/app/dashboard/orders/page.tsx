@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import {
   Package,
   Truck,
@@ -16,6 +17,7 @@ import {
   Home,
   CircleDot,
 } from "lucide-react";
+import { fadeUp, stagger, reduceMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const STATS = [
@@ -106,49 +108,74 @@ export default function OrdersPage() {
 
   return (
     <div>
-      <div className="dash-head">
+      <motion.div
+        className="dash-head"
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduceMotion({ duration: 0.4, ease: [0.16, 1, 0.3, 1] })}
+      >
         <h1 className="font-disp text-[48px] font-extrabold leading-[1.02] tracking-tighter2">
           Orders &amp; Shipments
         </h1>
         <p className="mt-2 text-[18px] text-muted">
           Track pickups, authentication progress and completed orders.
         </p>
-      </div>
+      </motion.div>
 
-      <div className="my-6 grid grid-cols-2 gap-4 lg:grid-cols-5">
+      <motion.div
+        className="my-6 grid grid-cols-2 gap-4 lg:grid-cols-5"
+        variants={stagger(0.05, 0.05)}
+        initial="hidden"
+        animate="show"
+      >
         {STATS.map((s) => {
           const Icon = s.icon;
           return (
-            <div key={s.label} className="rounded-hype bg-black p-5 text-white">
+            <motion.div
+              key={s.label}
+              variants={fadeUp}
+              whileHover={{ y: -3 }}
+              transition={reduceMotion({ duration: 0.2 })}
+              className="rounded-hype bg-black p-5 text-white"
+            >
               <div className="flex items-center gap-2.5 text-[14px] font-semibold text-[#e7e2da]">
                 <Icon className="h-5 w-5" strokeWidth={1.8} />
                 {s.label}
               </div>
               <div className="my-2 font-disp text-[46px] font-extrabold leading-none">{s.n}</div>
               <div className="text-[12px] text-[#8c867b]">{s.sub}</div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
-      <div className="mb-5.5 flex flex-wrap items-center gap-3">
-        {TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={cn(
-              "rounded-full px-[26px] py-3 text-[15px] font-semibold transition-colors",
-              tab === t ? "bg-ink text-white" : "bg-transparent text-muted hover:text-ink",
-            )}
-          >
-            {t}
-          </button>
-        ))}
-        <div className="ml-auto flex items-center gap-[18px] rounded-[12px] border border-line bg-cream-2 px-[18px] py-3 text-[14px] font-medium">
-          Sort by: Newest
-          <ChevronDown className="h-3 w-3" />
+      <LayoutGroup id="dashboard-orders-tabs">
+        <div className="mb-5.5 flex flex-wrap items-center gap-3">
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={cn(
+                "relative rounded-full px-[26px] py-3 text-[15px] font-semibold transition-colors",
+                tab === t ? "text-white" : "bg-transparent text-muted hover:text-ink",
+              )}
+            >
+              {tab === t && (
+                <motion.span
+                  layoutId="dashboard-orders-tab-bg"
+                  className="absolute inset-0 rounded-full bg-ink"
+                  transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+                />
+              )}
+              <span className="relative z-10">{t}</span>
+            </button>
+          ))}
+          <div className="ml-auto flex items-center gap-[18px] rounded-[12px] border border-line bg-cream-2 px-[18px] py-3 text-[14px] font-medium">
+            Sort by: Newest
+            <ChevronDown className="h-3 w-3" />
+          </div>
         </div>
-      </div>
+      </LayoutGroup>
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[1fr_380px]">
         <div>
@@ -161,11 +188,19 @@ export default function OrdersPage() {
               </p>
             </div>
           ) : (
-            filtered.map((o) => {
+            <motion.div
+              key={tab}
+              variants={stagger(0.07, 0.05)}
+              initial="hidden"
+              animate="show"
+            >
+            {filtered.map((o) => {
               const open = expanded === o.id;
               return (
-                <div
+                <motion.div
                   key={o.id}
+                  variants={fadeUp}
+                  layout
                   className="mb-5 rounded-hype-lg border border-line-soft bg-cream-2 p-6 transition-shadow hover:shadow-sm"
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -209,68 +244,88 @@ export default function OrdersPage() {
                     </button>
                   </div>
 
-                  {open && o.status !== "cancelled" && (
-                    <div className="mt-5 border-t border-line-soft pt-5">
-                      <div className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-muted">
-                        Status timeline
-                      </div>
-                      <ol className="relative pl-7">
-                        <span
-                          aria-hidden
-                          className="absolute left-[10px] top-1.5 bottom-1.5 w-px bg-line"
-                        />
-                        {TIMELINE.map((step, i) => {
-                          const active = getActiveStep(o.status);
-                          const done = active > i;
-                          const current = active === i;
-                          const Icon = step.icon;
-                          return (
-                            <li key={step.key} className="relative mb-4 last:mb-0">
-                              <span
-                                className={cn(
-                                  "absolute -left-7 top-0 flex h-5 w-5 items-center justify-center rounded-full border-2",
-                                  done
-                                    ? "border-ink bg-ink text-white"
-                                    : current
-                                      ? "border-ink bg-white text-ink"
-                                      : "border-line bg-cream-2 text-muted-2",
-                                )}
-                              >
-                                {done ? (
-                                  <Check className="h-3 w-3" strokeWidth={3} />
-                                ) : (
-                                  <Icon className="h-3 w-3" strokeWidth={2} />
-                                )}
-                              </span>
-                              <div
-                                className={cn(
-                                  "text-[14px] font-bold",
-                                  done || current ? "text-ink" : "text-muted-2",
-                                )}
-                              >
-                                {step.label}
-                                {current && (
-                                  <span className="ml-2 rounded-full bg-hype-red/10 px-2 py-0.5 text-[11px] font-bold text-hype-red">
-                                    Current
+                  <AnimatePresence initial={false}>
+                    {open && o.status !== "cancelled" && (
+                      <motion.div
+                        key="timeline"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+                        style={{ overflow: "hidden" }}
+                      >
+                        <div className="border-t border-line-soft pt-5">
+                          <div className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-muted">
+                            Status timeline
+                          </div>
+                          <ol className="relative pl-7">
+                            <span
+                              aria-hidden
+                              className="absolute left-[10px] top-1.5 bottom-1.5 w-px bg-line"
+                            />
+                            {TIMELINE.map((step, i) => {
+                              const active = getActiveStep(o.status);
+                              const done = active > i;
+                              const current = active === i;
+                              const Icon = step.icon;
+                              return (
+                                <li key={step.key} className="relative mb-4 last:mb-0">
+                                  <span
+                                    className={cn(
+                                      "absolute -left-7 top-0 flex h-5 w-5 items-center justify-center rounded-full border-2",
+                                      done
+                                        ? "border-ink bg-ink text-white"
+                                        : current
+                                          ? "border-ink bg-white text-ink"
+                                          : "border-line bg-cream-2 text-muted-2",
+                                    )}
+                                  >
+                                    {done ? (
+                                      <Check className="h-3 w-3" strokeWidth={3} />
+                                    ) : (
+                                      <Icon className="h-3 w-3" strokeWidth={2} />
+                                    )}
                                   </span>
-                                )}
-                              </div>
-                              <div className="text-[13px] text-muted">{step.when}</div>
-                            </li>
-                          );
-                        })}
-                      </ol>
-                    </div>
-                  )}
-
-                  {open && o.status === "cancelled" && (
-                    <div className="mt-5 border-t border-line-soft pt-5 text-[14px] text-muted">
-                      This order was cancelled. Funds (if any) have been returned to the buyer.
-                    </div>
-                  )}
-                </div>
+                                  <div
+                                    className={cn(
+                                      "text-[14px] font-bold",
+                                      done || current ? "text-ink" : "text-muted-2",
+                                    )}
+                                  >
+                                    {step.label}
+                                    {current && (
+                                      <span className="ml-2 rounded-full bg-hype-red/10 px-2 py-0.5 text-[11px] font-bold text-hype-red">
+                                        Current
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="text-[13px] text-muted">{step.when}</div>
+                                </li>
+                              );
+                            })}
+                          </ol>
+                        </div>
+                      </motion.div>
+                    )}
+                    {open && o.status === "cancelled" && (
+                      <motion.div
+                        key="cancelled"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={reduceMotion({ duration: 0.25 })}
+                        style={{ overflow: "hidden" }}
+                      >
+                        <div className="border-t border-line-soft pt-5 text-[14px] text-muted">
+                          This order was cancelled. Funds (if any) have been returned to the buyer.
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               );
-            })
+            })}
+            </motion.div>
           )}
         </div>
 

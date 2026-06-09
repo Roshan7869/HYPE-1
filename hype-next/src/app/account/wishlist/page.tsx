@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { Heart, X, ShoppingBag } from "lucide-react";
 import { AccountShell } from "@/components/account/account-shell";
+import { fadeUp, stagger, reduceMotion } from "@/lib/motion";
 import { cn, formatINR } from "@/lib/utils";
 
 const INITIAL = [
@@ -56,9 +58,24 @@ export default function WishlistPage() {
       ) : (
         <>
           <p className="mb-5 text-[15px] text-muted">{items.length} items</p>
-          <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
-            {items.map((p) => (
-              <div key={p.id} className="group relative overflow-hidden rounded-hype-lg border border-line bg-white">
+          <motion.div
+            className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4"
+            variants={stagger(0.05, 0.05)}
+            initial="hidden"
+            animate="show"
+            layout
+          >
+            <AnimatePresence mode="popLayout">
+              {items.map((p) => (
+                <motion.div
+                  key={p.id}
+                  variants={fadeUp}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  layout
+                  whileHover={{ y: -4 }}
+                  transition={reduceMotion({ duration: 0.25, ease: [0.16, 1, 0.3, 1] })}
+                  className="group relative overflow-hidden rounded-hype-lg border border-line bg-white"
+                >
                 <div className="relative">
                   <div className={cn("flex aspect-square items-center justify-center bg-gradient-to-br text-7xl", p.gradient)}>
                     {p.emoji}
@@ -86,9 +103,10 @@ export default function WishlistPage() {
                   <p className="mt-0.5 text-[13px] text-muted">{p.condition}</p>
                   <p className="mt-2 text-[16px] font-bold text-ink">{formatINR(p.price)}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+            </AnimatePresence>
+          </motion.div>
 
           <section className="mt-16">
             <h2 className="mb-5 font-disp text-[20px] font-extrabold tracking-tighter2">Recently Viewed</h2>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Minus,
   Plus,
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
+import { fadeUp, stagger, reduceMotion } from "@/lib/motion";
 import { formatINR } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
@@ -111,10 +113,19 @@ export default function CartPage() {
 
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
               <div>
-                <div className="rounded-hype-lg border border-line bg-white px-6">
+                <motion.div
+                  className="rounded-hype-lg border border-line bg-white px-6"
+                  variants={stagger(0.05, 0.05)}
+                  initial="hidden"
+                  animate="show"
+                >
+                  <AnimatePresence initial={false}>
                   {items.map((i) => (
-                    <div
+                    <motion.div
                       key={i.id}
+                      variants={fadeUp}
+                      exit={{ opacity: 0, x: -20, height: 0, paddingTop: 0, paddingBottom: 0 }}
+                      transition={reduceMotion({ duration: 0.25, ease: [0.16, 1, 0.3, 1] })}
                       className="flex gap-5 border-b border-line py-6 last:border-b-0"
                     >
                       <div className={cn("h-20 w-20 flex-none rounded-xl", i.gradient)}>
@@ -139,9 +150,10 @@ export default function CartPage() {
                         </button>
                         <Qty value={i.quantity} onChange={(d) => setQty(i.id, d)} max={i.max} />
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                  </AnimatePresence>
+                </motion.div>
 
                 <Link
                   href="/shop"

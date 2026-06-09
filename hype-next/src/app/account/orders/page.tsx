@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Search } from "lucide-react";
 import { AccountShell } from "@/components/account/account-shell";
+import { fadeUp, stagger, reduceMotion } from "@/lib/motion";
 import { cn, formatINR } from "@/lib/utils";
 
 type Status = "processing" | "shipped" | "delivered" | "cancelled";
@@ -116,26 +118,51 @@ export default function OrdersListPage() {
         </div>
       </div>
 
-      <div className="mb-6 flex flex-wrap gap-2">
-        {FILTERS.map((f) => (
-          <button
-            key={f.id}
-            onClick={() => setTab(f.id)}
-            className={cn(
-              "rounded-full px-4 py-2 text-[14px] font-semibold transition-colors",
-              tab === f.id
-                ? "bg-ink text-white border border-ink"
-                : "border border-line bg-white text-muted hover:text-ink",
-            )}
-          >
-            {f.label} <span className="ml-1 opacity-70">{f.n}</span>
-          </button>
-        ))}
-      </div>
+      <LayoutGroup id="orders-filters">
+        <div className="mb-6 flex flex-wrap gap-2">
+          {FILTERS.map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setTab(f.id)}
+              className={cn(
+                "relative rounded-full px-4 py-2 text-[14px] font-semibold transition-colors",
+                tab === f.id
+                  ? "text-white"
+                  : "border border-line bg-white text-muted hover:text-ink",
+              )}
+            >
+              {tab === f.id && (
+                <motion.span
+                  layoutId="orders-filter-bg"
+                  className="absolute inset-0 rounded-full bg-ink"
+                  transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+                />
+              )}
+              <span className="relative z-10">
+                {f.label} <span className="ml-1 opacity-70">{f.n}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </LayoutGroup>
 
-      <div className="space-y-4">
-        {visible.map((o) => (
-          <div key={o.id} className="rounded-2xl border border-line bg-white p-5">
+      <motion.div
+        key={tab + q}
+        className="space-y-4"
+        variants={stagger(0.05, 0.05)}
+        initial="hidden"
+        animate="show"
+      >
+        <AnimatePresence mode="popLayout">
+          {visible.map((o) => (
+            <motion.div
+              key={o.id}
+              variants={fadeUp}
+              exit={{ opacity: 0, y: -8 }}
+              layout
+              transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+              className="rounded-2xl border border-line bg-white p-5"
+            >
             <div className="mb-4 flex items-center justify-between text-[14px]">
               <div>
                 <span className="font-bold text-ink">Order #{o.id}</span>
@@ -197,14 +224,15 @@ export default function OrdersListPage() {
                 </Link>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
+        </AnimatePresence>
         {visible.length === 0 && (
           <div className="rounded-hype-lg border border-line bg-white p-12 text-center">
             <p className="text-[15px] text-muted">No orders match this filter.</p>
           </div>
         )}
-      </div>
+      </motion.div>
     </AccountShell>
   );
 }

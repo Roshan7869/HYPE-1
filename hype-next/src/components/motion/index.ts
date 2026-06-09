@@ -22,3 +22,4 @@ export { Skeleton } from "./skeleton";
 
 // Re-export the existing shared scroll-reveal under the same namespace.
 export { ScrollReveal } from "@/components/shared/scroll-reveal";
+export { SectionReveal } from "./section-reveal";

@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { reduceMotion } from "@/lib/motion";
 
 export default function LoginPage() {
   const [show, setShow] = useState(false);
@@ -30,7 +32,12 @@ export default function LoginPage() {
 
   return (
     <AuthShell>
-      <div className="mx-auto w-full max-w-[420px] rounded-3xl border border-line bg-white px-10 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduceMotion({ duration: 0.5, ease: [0.16, 1, 0.3, 1] })}
+        className="mx-auto w-full max-w-[420px] rounded-3xl border border-line bg-white px-10 py-12"
+      >
         <h1 className="text-center font-disp text-[28px] font-extrabold tracking-tighter2 text-ink">
           Login to Your Account
         </h1>
@@ -124,12 +131,23 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Login to Account"}
           </Button>
 
-          {error && (
-            <div className="flex items-center gap-2.5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-[14px] text-red-600">
-              <AlertCircle className="h-4 w-4 flex-none" />
-              {error}
-            </div>
-          )}
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                key="err"
+                initial={{ opacity: 0, y: -6, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: "auto" }}
+                exit={{ opacity: 0, y: -6, height: 0 }}
+                transition={reduceMotion({ duration: 0.25 })}
+                style={{ overflow: "hidden" }}
+              >
+                <div className="flex items-center gap-2.5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-[14px] text-red-600">
+                  <AlertCircle className="h-4 w-4 flex-none" />
+                  {error}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </form>
 
         <p className="mt-7 text-center text-[15px] text-muted">
@@ -138,7 +156,7 @@ export default function LoginPage() {
             Sign up
           </Link>
         </p>
-      </div>
+      </motion.div>
     </AuthShell>
   );
 }

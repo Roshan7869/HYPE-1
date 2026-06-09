@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import {
   Plus,
   Search,
@@ -22,6 +23,7 @@ import {
   CheckCircle2,
   ChevronDown,
 } from "lucide-react";
+import { fadeUp, stagger, reduceMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const TABS = ["Active", "Drafts", "Paused", "Sold"] as const;
@@ -176,27 +178,35 @@ export default function DashboardListingsPage() {
         </a>
       </div>
 
-      <div className="mt-5 mb-5.5 flex flex-wrap items-center gap-3">
-        {TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={cn(
-              "flex items-center gap-2 rounded-full px-[22px] py-2.5 text-[14px] font-semibold transition-colors",
-              tab === t ? "bg-ink text-white" : "bg-transparent text-muted hover:text-ink",
-            )}
-          >
-            {t}
-            <span
+      <LayoutGroup id="dash-listings-tabs">
+        <div className="mt-5 mb-5.5 flex flex-wrap items-center gap-3">
+          {TABS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
               className={cn(
-                "flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[11px] font-bold",
-                tab === t ? "bg-white/15 text-white" : "bg-cream-2 text-muted",
+                "relative flex items-center gap-2 rounded-full px-[22px] py-2.5 text-[14px] font-semibold transition-colors",
+                tab === t ? "text-white" : "bg-transparent text-muted hover:text-ink",
               )}
             >
-              {counts[t]}
-            </span>
-          </button>
-        ))}
+              {tab === t && (
+                <motion.span
+                  layoutId="dash-listings-tab-bg"
+                  className="absolute inset-0 rounded-full bg-ink"
+                  transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+                />
+              )}
+              <span className="relative z-10">{t}</span>
+              <span
+                className={cn(
+                  "relative z-10 flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[11px] font-bold",
+                  tab === t ? "bg-white/15 text-white" : "bg-cream-2 text-muted",
+                )}
+              >
+                {counts[t]}
+              </span>
+            </button>
+          ))}
 
         <div className="ml-auto flex items-center gap-3">
           <div className="hidden items-center gap-2 rounded-[12px] border border-line bg-white px-3.5 py-2.5 text-[14px] md:flex">
@@ -210,7 +220,8 @@ export default function DashboardListingsPage() {
             <Filter className="h-4 w-4" /> Filter <ChevronDown className="h-3 w-3" />
           </button>
         </div>
-      </div>
+        </div>
+      </LayoutGroup>
 
       {filtered.length === 0 ? (
         <div className="rounded-hype-lg border border-dashed border-line bg-cream-2 p-16 text-center">
@@ -227,17 +238,28 @@ export default function DashboardListingsPage() {
           </a>
         </div>
       ) : (
-        <div className="space-y-4">
+        <motion.div
+          key={tab}
+          className="space-y-4"
+          variants={stagger(0.06, 0.05)}
+          initial="hidden"
+          animate="show"
+        >
           {filtered.map((l) => (
-            <ListingRow
+            <motion.div
               key={l.id}
-              listing={l}
-              menuOpen={openMenu === l.id}
-              onMenuToggle={() => setOpenMenu(openMenu === l.id ? null : l.id)}
-              onMenuClose={() => setOpenMenu(null)}
-            />
+              variants={fadeUp}
+              layout
+              transition={reduceMotion({ duration: 0.3, ease: [0.16, 1, 0.3, 1] })}
+            >
+              <ListingRow
+                listing={l}
+                menuOpen={openMenu === l.id}
+                onMenuToggle={() => setOpenMenu(openMenu === l.id ? null : l.id)}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </div>
   );
@@ -247,12 +269,10 @@ function ListingRow({
   listing: l,
   menuOpen,
   onMenuToggle,
-  onMenuClose,
 }: {
   listing: Listing;
   menuOpen: boolean;
   onMenuToggle: () => void;
-  onMenuClose: () => void;
 }) {
   const s = STATUS_STYLES[l.status];
   return (
@@ -354,14 +374,15 @@ function ListingRow({
           >
             <MoreHorizontal className="h-4 w-4" />
           </button>
-          {menuOpen && (
-            <>
-              <button
-                aria-label="Close menu"
-                onClick={onMenuClose}
-                className="fixed inset-0 z-10 cursor-default"
-              />
-              <div className="absolute right-0 top-12 z-20 w-52 overflow-hidden rounded-[12px] border border-line bg-white py-1.5 shadow-lg">
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -6, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.96 }}
+                transition={reduceMotion({ duration: 0.18, ease: [0.16, 1, 0.3, 1] })}
+                className="absolute right-0 top-12 z-20 w-52 overflow-hidden rounded-[12px] border border-line bg-white py-1.5 shadow-lg"
+              >
                 <MenuItem icon={Edit} label="Edit listing" />
                 <MenuItem icon={Copy} label="Duplicate" />
                 {l.status === "active" ? (
@@ -372,9 +393,9 @@ function ListingRow({
                 {l.status === "draft" && <MenuItem icon={X} label="Cancel draft" />}
                 <div className="my-1 border-t border-line-soft" />
                 <MenuItem icon={Trash2} label="Delete" danger />
-              </div>
-            </>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

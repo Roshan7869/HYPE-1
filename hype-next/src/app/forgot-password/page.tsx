@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, KeyRound, CheckCircle2, AlertCircle } from "lucide-react";
 import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { reduceMotion } from "@/lib/motion";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -42,9 +44,21 @@ export default function ForgotPasswordPage() {
 
   return (
     <AuthShell>
-      <div className="mx-auto w-full max-w-[420px] rounded-3xl border border-line bg-white px-10 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduceMotion({ duration: 0.5, ease: [0.16, 1, 0.3, 1] })}
+        className="mx-auto w-full max-w-[420px] rounded-3xl border border-line bg-white px-10 py-12"
+      >
+        <AnimatePresence mode="wait">
         {!sent ? (
-          <>
+          <motion.div
+            key="form"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={reduceMotion({ duration: 0.3 })}
+          >
             <div className="flex flex-col items-center text-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cream-3">
                 <KeyRound className="h-6 w-6 text-muted" />
@@ -90,9 +104,15 @@ export default function ForgotPasswordPage() {
             >
               <ArrowLeft className="h-4 w-4" /> Back to Login
             </Link>
-          </>
+          </motion.div>
         ) : (
-          <>
+          <motion.div
+            key="sent"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={reduceMotion({ duration: 0.4, ease: [0.16, 1, 0.3, 1] })}
+          >
             <div className="flex flex-col items-center text-center">
               <CheckCircle2 className="h-12 w-12 text-green-600" strokeWidth={1.5} />
               <h1 className="mt-6 font-disp text-[26px] font-extrabold tracking-tighter2 text-ink">
@@ -124,9 +144,10 @@ export default function ForgotPasswordPage() {
             <p className="mt-6 text-center text-[13px] text-muted">
               Didn&apos;t get it? Check your spam folder.
             </p>
-          </>
+          </motion.div>
         )}
-      </div>
+        </AnimatePresence>
+      </motion.div>
     </AuthShell>
   );
 }

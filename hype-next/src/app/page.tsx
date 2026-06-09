@@ -6,6 +6,7 @@ import { MarketGrid } from "@/components/home/market-grid";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { MarketMoves } from "@/components/home/market-moves";
 import { StayAhead } from "@/components/home/stay-ahead";
+import { SectionReveal } from "@/components/motion";
 import { AUCTIONS } from "@/lib/mock-data";
 
 export default function HomePage() {
@@ -16,11 +17,11 @@ export default function HomePage() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
-        <StatsBar />
-        <MarketGrid auctions={liveAuctions} />
-        <HowItWorks />
-        <MarketMoves />
-        <StayAhead />
+        <SectionReveal><StatsBar /></SectionReveal>
+        <SectionReveal><MarketGrid auctions={liveAuctions} /></SectionReveal>
+        <SectionReveal><HowItWorks /></SectionReveal>
+        <SectionReveal><MarketMoves /></SectionReveal>
+        <SectionReveal><StayAhead /></SectionReveal>
       </main>
       <Footer />
     </div>
