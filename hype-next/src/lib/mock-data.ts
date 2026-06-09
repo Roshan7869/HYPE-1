@@ -210,6 +210,24 @@ export const AUCTIONS: Auction[] = [
 export const getAuctionById = (id: string): Auction | undefined =>
   AUCTIONS.find((a) => a.id === id);
 
+/** Slugify an auction name (kebab-case, lowercased, ASCII only). */
+export const slugify = (s: string): string =>
+  s
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+export const getAuctionSlug = (a: Auction): string => `${a.id}-${slugify(a.name)}`;
+
+export const getAuctionBySlug = (slug: string): Auction | undefined =>
+  AUCTIONS.find((a) => getAuctionSlug(a) === slug);
+
+export const getAllAuctionSlugs = (): string[] => AUCTIONS.map(getAuctionSlug);
+
 export const getLiveAuctions = (): Auction[] => AUCTIONS.filter((a) => a.status === "live");
 export const getUpcomingAuctions = (): Auction[] =>
   AUCTIONS.filter((a) => a.status === "upcoming");

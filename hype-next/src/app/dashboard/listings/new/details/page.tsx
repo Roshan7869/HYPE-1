@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronRight, Box, Palette, Calendar, Tag } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ListingStepper, BackLink } from "@/components/dashboard/listing-stepper";
 
 const OPTIONS = [
@@ -76,13 +75,27 @@ export default function CreateListingDetailsPage() {
           })}
 
           <div className="mt-7.5 flex items-center justify-between">
-            <Button variant="outline" size="lg">
+            <a
+              href="/dashboard/listings/new"
+              className="inline-flex h-12 items-center rounded-full border-[1.5px] border-ink px-7 text-[14px] font-bold text-ink transition-colors hover:bg-ink hover:text-white"
+            >
               Back
-            </Button>
-            <Button size="lg" className="gap-2">
-              Next step
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+            </a>
+            <div className="flex items-center gap-2">
+              <a
+                href="/dashboard/listings"
+                className="inline-flex h-12 items-center rounded-full border-[1.5px] border-ink px-6 text-[14px] font-bold text-ink transition-colors hover:bg-ink hover:text-white"
+              >
+                Save as Draft
+              </a>
+              <a
+                href="/dashboard/listings/new/size"
+                className="inline-flex h-12 items-center gap-2 rounded-full bg-ink px-7 text-[14px] font-bold text-white transition-colors hover:bg-black"
+              >
+                Next step
+                <ChevronRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </div>
 

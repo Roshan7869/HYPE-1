@@ -9,14 +9,17 @@ import {
   X,
   ChevronDown,
   ArrowRight,
+  ArrowUpRight,
   Box,
   TrendingUp,
-  ArrowUpRight,
+  PackageCheck,
+  Home,
+  CircleDot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const STATS = [
-  { icon: Package, label: "Active Orders", n: "02", sub: "Orders cancelled / refunded" },
+  { icon: Package, label: "Active Orders", n: "02", sub: "Currently in progress" },
   { icon: Truck, label: "Pending Pickup", n: "04", sub: "Awaiting courier pickup" },
   { icon: ShieldCheck, label: "In Authentication", n: "08", sub: "Being verified by HYPE" },
   { icon: Check, label: "Completed", n: "126", sub: "Successfully delivered" },
@@ -25,13 +28,38 @@ const STATS = [
 
 const TABS = ["Pending Pickup", "In Authentication", "Completed", "Cancelled"] as const;
 
-const ORDERS = [
+type OrderStatus = "pickup" | "in_transit" | "auth" | "delivered" | "cancelled";
+
+const TIMELINE: { key: OrderStatus; icon: typeof Package; label: string; when: string }[] = [
+  { key: "pickup", icon: Home, label: "Pickup scheduled", when: "Today, 4:00 – 7:00 PM" },
+  { key: "in_transit", icon: Truck, label: "In transit to HYPE", when: "Estimated Aug 14" },
+  { key: "auth", icon: ShieldCheck, label: "Authentication", when: "24–48 hours" },
+  { key: "delivered", icon: PackageCheck, label: "Delivered to buyer", when: "Estimated Aug 18" },
+];
+
+interface Order {
+  name: string;
+  id: string;
+  due: string;
+  desc: string;
+  action: string;
+  status: OrderStatus;
+  buyer: string;
+  amount: string;
+  orderedOn: string;
+}
+
+const ORDERS: Order[] = [
   {
     name: "Air Jordan 1 Retro High 'Chicago'",
     id: "#ORD-10928",
     due: "Pickup scheduled today, 4:00 – 7:00 PM",
     desc: "Our delivery partner will collect the item from your registered address. Pack securely with the HYPE shipping label.",
     action: "Track Pickup",
+    status: "pickup",
+    buyer: "Rahul M.",
+    amount: "₹18,500",
+    orderedOn: "Aug 11, 2026",
   },
   {
     name: "Yeezy 350 V2 'Beluga'",
@@ -39,6 +67,10 @@ const ORDERS = [
     due: "Authentication in progress",
     desc: "Your item is being verified by our authentication team. Verification usually takes 24-48 hours.",
     action: "View Status",
+    status: "auth",
+    buyer: "Aakash P.",
+    amount: "₹25,200",
+    orderedOn: "Aug 10, 2026",
   },
   {
     name: "Travis Scott Cactus Jack Hoodie",
@@ -46,11 +78,31 @@ const ORDERS = [
     due: "Delivered to buyer",
     desc: "Funds will be released to your wallet within 24 hours of confirmed delivery.",
     action: "View Details",
+    status: "delivered",
+    buyer: "Sneha K.",
+    amount: "₹31,000",
+    orderedOn: "Aug 6, 2026",
   },
 ];
 
+const STEP_ORDER: OrderStatus[] = ["pickup", "in_transit", "auth", "delivered"];
+
+function getActiveStep(status: OrderStatus): number {
+  if (status === "cancelled") return -1;
+  return STEP_ORDER.indexOf(status);
+}
+
 export default function OrdersPage() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("Pending Pickup");
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  const filtered = ORDERS.filter((o) => {
+    if (tab === "Pending Pickup") return o.status === "pickup" || o.status === "in_transit";
+    if (tab === "In Authentication") return o.status === "auth";
+    if (tab === "Completed") return o.status === "delivered";
+    if (tab === "Cancelled") return o.status === "cancelled";
+    return true;
+  });
 
   return (
     <div>
@@ -100,23 +152,126 @@ export default function OrdersPage() {
 
       <div className="grid grid-cols-1 gap-7 lg:grid-cols-[1fr_380px]">
         <div>
-          {ORDERS.map((o) => (
-            <div
-              key={o.id}
-              className="mb-5 rounded-hype-lg border border-line-soft bg-cream-2 p-6"
-            >
-              <div className="flex items-start justify-between">
-                <h3 className="font-disp text-[22px] font-extrabold">{o.name}</h3>
-                <span className="text-[14px] text-muted">{o.id}</span>
-              </div>
-              <div className="my-2 font-semibold text-hype-red">{o.due}</div>
-              <p className="mb-4 text-[15px] text-muted">{o.desc}</p>
-              <button className="rounded-[10px] bg-ink px-6 py-3 text-[14px] font-semibold text-white hover:bg-black">
-                {o.action}
-                <ArrowRight className="ml-2 inline-block h-4 w-4" />
-              </button>
+          {filtered.length === 0 ? (
+            <div className="rounded-hype-lg border border-dashed border-line bg-cream-2 p-12 text-center">
+              <Package className="mx-auto h-10 w-10 text-muted-2" strokeWidth={1.4} />
+              <p className="mt-3 font-disp text-[20px] font-extrabold">No orders here yet</p>
+              <p className="mt-1 text-[14px] text-muted">
+                When an order matches this status, it&apos;ll show up here.
+              </p>
             </div>
-          ))}
+          ) : (
+            filtered.map((o) => {
+              const open = expanded === o.id;
+              return (
+                <div
+                  key={o.id}
+                  className="mb-5 rounded-hype-lg border border-line-soft bg-cream-2 p-6 transition-shadow hover:shadow-sm"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-disp text-[22px] font-extrabold">{o.name}</h3>
+                      <div className="mt-1 flex items-center gap-3 text-[13px] text-muted">
+                        <span>{o.id}</span>
+                        <span>•</span>
+                        <span>Buyer: {o.buyer}</span>
+                        <span>•</span>
+                        <span>{o.orderedOn}</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted">
+                        Amount
+                      </div>
+                      <div className="font-disp text-[20px] font-extrabold">{o.amount}</div>
+                    </div>
+                  </div>
+
+                  <div className="my-2 flex items-center gap-2 font-semibold text-hype-red">
+                    <CircleDot className="h-4 w-4" />
+                    {o.due}
+                  </div>
+                  <p className="mb-4 text-[15px] text-muted">{o.desc}</p>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={() => setExpanded(open ? null : o.id)}
+                      className="rounded-[10px] bg-ink px-6 py-3 text-[14px] font-semibold text-white hover:bg-black"
+                    >
+                      {o.action}
+                      <ArrowRight className="ml-2 inline-block h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => setExpanded(open ? null : o.id)}
+                      className="rounded-[10px] border border-line bg-white px-5 py-3 text-[14px] font-semibold text-ink hover:border-ink"
+                    >
+                      {open ? "Hide timeline" : "View timeline"}
+                    </button>
+                  </div>
+
+                  {open && o.status !== "cancelled" && (
+                    <div className="mt-5 border-t border-line-soft pt-5">
+                      <div className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-muted">
+                        Status timeline
+                      </div>
+                      <ol className="relative pl-7">
+                        <span
+                          aria-hidden
+                          className="absolute left-[10px] top-1.5 bottom-1.5 w-px bg-line"
+                        />
+                        {TIMELINE.map((step, i) => {
+                          const active = getActiveStep(o.status);
+                          const done = active > i;
+                          const current = active === i;
+                          const Icon = step.icon;
+                          return (
+                            <li key={step.key} className="relative mb-4 last:mb-0">
+                              <span
+                                className={cn(
+                                  "absolute -left-7 top-0 flex h-5 w-5 items-center justify-center rounded-full border-2",
+                                  done
+                                    ? "border-ink bg-ink text-white"
+                                    : current
+                                      ? "border-ink bg-white text-ink"
+                                      : "border-line bg-cream-2 text-muted-2",
+                                )}
+                              >
+                                {done ? (
+                                  <Check className="h-3 w-3" strokeWidth={3} />
+                                ) : (
+                                  <Icon className="h-3 w-3" strokeWidth={2} />
+                                )}
+                              </span>
+                              <div
+                                className={cn(
+                                  "text-[14px] font-bold",
+                                  done || current ? "text-ink" : "text-muted-2",
+                                )}
+                              >
+                                {step.label}
+                                {current && (
+                                  <span className="ml-2 rounded-full bg-hype-red/10 px-2 py-0.5 text-[11px] font-bold text-hype-red">
+                                    Current
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-[13px] text-muted">{step.when}</div>
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </div>
+                  )}
+
+                  {open && o.status === "cancelled" && (
+                    <div className="mt-5 border-t border-line-soft pt-5 text-[14px] text-muted">
+                      This order was cancelled. Funds (if any) have been returned to the buyer.
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
         </div>
 
         <aside className="space-y-6">
@@ -156,7 +311,7 @@ function InsightsCard() {
           Our seller support team is available 9 AM – 9 PM IST.
         </p>
         <a
-          href="#"
+          href="/contact"
           className="mt-3 inline-flex items-center gap-2 text-[14px] font-bold"
         >
           Contact Support
