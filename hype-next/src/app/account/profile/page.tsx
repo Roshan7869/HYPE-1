@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   User,
   MapPin,
@@ -14,11 +15,15 @@ import {
   Trash2,
   Eye,
   EyeOff,
+  ShieldCheck,
+  Smartphone,
 } from "lucide-react";
 import { AccountShell } from "@/components/account/account-shell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PasswordStrengthMeter, getPasswordStrength } from "@/components/auth/password-strength";
+import { EmptyState, ToastProvider, useToast } from "@/components/motion";
+import { dur, ease, fadeUp, reduceMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const SECTIONS = [
@@ -36,6 +41,14 @@ const ADDRESSES = [
 ];
 
 export default function ProfilePage() {
+  return (
+    <ToastProvider>
+      <ProfilePageInner />
+    </ToastProvider>
+  );
+}
+
+function ProfilePageInner() {
   const [tab, setTab] = useState<(typeof SECTIONS)[number]["id"]>("profile");
   return (
     <AccountShell
@@ -52,17 +65,25 @@ export default function ProfilePage() {
           <nav className="rounded-2xl border border-line bg-white p-2">
             {SECTIONS.map((s) => {
               const Icon = s.icon;
+              const active = tab === s.id;
               return (
                 <button
                   key={s.id}
                   onClick={() => setTab(s.id)}
                   className={cn(
-                    "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[15px] font-medium transition-colors",
-                    tab === s.id ? "bg-ink text-white" : "text-muted hover:bg-cream-2 hover:text-ink",
+                    "relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[15px] font-medium transition-colors",
+                    active ? "text-white" : "text-muted hover:bg-cream-2 hover:text-ink",
                   )}
                 >
-                  <Icon className="h-5 w-5" />
-                  {s.label}
+                  {active && (
+                    <motion.span
+                      layoutId="profile-tab-bg"
+                      className="absolute inset-0 rounded-xl bg-ink"
+                      transition={reduceMotion({ type: "spring", stiffness: 380, damping: 30 })}
+                    />
+                  )}
+                  <Icon className="relative z-10 h-5 w-5" />
+                  <span className="relative z-10">{s.label}</span>
                 </button>
               );
             })}
@@ -70,12 +91,23 @@ export default function ProfilePage() {
         </aside>
 
         <div className="min-w-0">
-          {tab === "profile" && <ProfileSection />}
-          {tab === "addresses" && <AddressesSection />}
-          {tab === "password" && <PasswordSection />}
-          {tab === "notifications" && <NotificationsSection />}
-          {tab === "payment" && <PaymentSection />}
-          {tab === "danger" && <DangerSection />}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={tab}
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              exit={{ opacity: 0, y: -8 }}
+              transition={reduceMotion({ duration: dur.base, ease: ease.out })}
+            >
+              {tab === "profile" && <ProfileSection />}
+              {tab === "addresses" && <AddressesSection />}
+              {tab === "password" && <PasswordSection />}
+              {tab === "notifications" && <NotificationsSection />}
+              {tab === "payment" && <PaymentSection />}
+              {tab === "danger" && <DangerSection />}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </AccountShell>
@@ -84,32 +116,41 @@ export default function ProfilePage() {
 
 function Card({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <div className="rounded-[20px] border border-line bg-white p-8">
+    <motion.div
+      variants={fadeUp}
+      className="rounded-[20px] border border-line bg-white p-8"
+    >
       <div className="mb-6 flex items-center justify-between">
         <h2 className="font-disp text-[20px] font-extrabold tracking-tighter2 text-ink">{title}</h2>
         {action}
       </div>
       {children}
-    </div>
+    </motion.div>
   );
 }
 
 function ProfileSection() {
+  const toast = useToast();
   return (
     <Card title="Profile Information">
       <div className="mb-8 flex flex-col items-center gap-3 text-center">
-        <div className="relative">
-          <div className="flex h-[100px] w-[100px] items-center justify-center rounded-full bg-sand text-[36px] font-extrabold text-ink">
-            RK
-          </div>
-          <button
+        <motion.div
+          className="relative"
+          whileHover={{ scale: 1.05 }}
+          transition={reduceMotion({ type: "spring", stiffness: 380, damping: 20 })}
+        >
+          <div className="flex h-[100px] w-[100px] items-center justify-center rounded-full bg-sand text-[36px] font-extrabold text-ink">RK</div>
+          <motion.button
             type="button"
-            className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-ink text-white shadow-md transition-colors hover:bg-black"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => toast("Photo upload coming soon", "info")}
+            className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-ink text-white shadow-md"
             aria-label="Upload avatar"
           >
             <Camera className="h-4 w-4" />
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
         <p className="text-[13px] text-muted">Click to upload new photo</p>
       </div>
 
@@ -145,25 +186,32 @@ function ProfileSection() {
       </div>
 
       <div className="mt-8">
-        <Button size="lg">Save Changes</Button>
+        <Button size="lg" onClick={() => toast("Profile updated", "success")}>Save Changes</Button>
       </div>
     </Card>
   );
 }
 
 function AddressesSection() {
+  const toast = useToast();
   return (
     <Card
       title="Saved Addresses"
       action={
-        <Button size="sm" className="gap-1.5">
+        <Button size="sm" className="gap-1.5" onClick={() => toast("Add address form coming soon", "info")}>
           <Plus className="h-4 w-4" /> Add New
         </Button>
       }
     >
       <div className="space-y-3">
-        {ADDRESSES.map((a) => (
-          <div key={a.id} className="flex items-start gap-4 rounded-2xl border border-line p-5">
+        {ADDRESSES.map((a, i) => (
+          <motion.div
+            key={a.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={reduceMotion({ duration: dur.base, ease: ease.out, delay: i * 0.05 })}
+            className="flex items-start gap-4 rounded-2xl border border-line p-5 transition-colors hover:border-ink/30"
+          >
             <div className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-cream-3">
               <MapPin className="h-5 w-5 text-ink" />
             </div>
@@ -179,10 +227,10 @@ function AddressesSection() {
               <p className="mt-1 text-[14px] text-muted">{a.phone}</p>
             </div>
             <div className="flex flex-col gap-2">
-              <button className="text-[14px] font-semibold text-ink hover:underline">Edit</button>
-              <button className="text-[14px] font-semibold text-red-500 hover:underline">Delete</button>
+              <button onClick={() => toast("Edit address coming soon", "info")} className="text-[14px] font-semibold text-ink hover:underline">Edit</button>
+              <button onClick={() => toast("Delete address coming soon", "info")} className="text-[14px] font-semibold text-red-500 hover:underline">Delete</button>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Card>
@@ -190,6 +238,7 @@ function AddressesSection() {
 }
 
 function PasswordSection() {
+  const toast = useToast();
   const [pw, setPw] = useState("");
   const [confirm, setConfirm] = useState("");
   const [show, setShow] = useState(false);
@@ -215,13 +264,14 @@ function PasswordSection() {
         </Field>
       </div>
       <div className="mt-8">
-        <Button size="lg" disabled={!valid}>Update Password</Button>
+        <Button size="lg" disabled={!valid} onClick={() => valid && toast("Password updated", "success")}>Update Password</Button>
       </div>
     </Card>
   );
 }
 
 function NotificationsSection() {
+  const toast = useToast();
   const [prefs, setPrefs] = useState({ orders: true, bids: true, marketing: false, newsletter: false, sms: true });
   return (
     <Card title="Notification Preferences">
@@ -244,73 +294,101 @@ function NotificationsSection() {
               aria-checked={prefs[n.id as keyof typeof prefs]}
               onClick={() => setPrefs((p) => ({ ...p, [n.id]: !p[n.id as keyof typeof prefs] }))}
               className={cn(
-                "relative h-7 w-12 flex-none rounded-full transition-colors",
+                "relative h-7 w-12 flex-none rounded-full transition-colors duration-200",
                 prefs[n.id as keyof typeof prefs] ? "bg-ink" : "bg-line",
               )}
             >
-              <span
-                className={cn(
-                  "absolute top-0.5 h-6 w-6 rounded-full bg-white transition-transform",
-                  prefs[n.id as keyof typeof prefs] ? "translate-x-5" : "translate-x-0.5",
-                )}
+              <motion.span
+                className="absolute top-0.5 h-6 w-6 rounded-full bg-white shadow-sm"
+                animate={{ x: prefs[n.id as keyof typeof prefs] ? 22 : 2 }}
+                transition={reduceMotion({ type: "spring", stiffness: 500, damping: 30 })}
               />
             </button>
           </div>
         ))}
       </div>
       <div className="mt-6">
-        <Button size="lg">Save Preferences</Button>
+        <Button size="lg" onClick={() => toast("Notification preferences saved", "success")}>Save Preferences</Button>
       </div>
     </Card>
   );
 }
 
 function PaymentSection() {
+  const toast = useToast();
   return (
     <Card
       title="Saved Payment Methods"
       action={
-        <Button size="sm" className="gap-1.5">
+        <Button size="sm" className="gap-1.5" onClick={() => toast("Add card form coming soon", "info")}>
           <Plus className="h-4 w-4" /> Add Card
         </Button>
       }
     >
-      <div className="rounded-2xl border border-dashed border-line p-8 text-center">
-        <CreditCard className="mx-auto h-12 w-12 text-muted-2" />
-        <p className="mt-3 text-[15px] font-semibold">No saved cards yet</p>
-        <p className="mt-1 text-[13px] text-muted">Add a card for faster checkout.</p>
+      <div className="space-y-3">
+        <motion.div
+          whileHover={{ y: -2 }}
+          transition={reduceMotion({ type: "spring", stiffness: 380, damping: 28 })}
+          className="flex items-center gap-4 rounded-2xl border border-line bg-gradient-to-br from-ink to-zinc-800 p-5 text-white"
+        >
+          <div className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white/10">
+            <CreditCard className="h-5 w-5" />
+          </div>
+          <div className="flex-1">
+            <p className="text-[15px] font-bold">HDFC •••• 4321</p>
+            <p className="mt-1 text-[12px] uppercase tracking-[0.12em] text-white/60">Expires 12/28</p>
+          </div>
+          <span className="rounded bg-white/10 px-2 py-0.5 text-[11px] font-bold">Default</span>
+        </motion.div>
       </div>
       <div className="mt-6 rounded-2xl bg-cream-3 p-5">
-        <p className="text-[14px] font-bold text-ink">UPI</p>
-        <p className="mt-1 text-[13px] text-muted">Default: roshan@okhdfc</p>
-        <button className="mt-3 text-[13px] font-semibold text-ink hover:underline">Change UPI ID</button>
+        <div className="flex items-center gap-3">
+          <Smartphone className="h-5 w-5 text-ink" />
+          <p className="text-[14px] font-bold text-ink">UPI</p>
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-hype-green px-2 py-0.5 text-[11px] font-bold text-hype-green-ink">
+            <ShieldCheck className="h-3 w-3" /> Verified
+          </span>
+        </div>
+        <p className="mt-2 text-[13px] text-muted">Default: roshan@okhdfc</p>
+        <button onClick={() => toast("Change UPI flow coming soon", "info")} className="mt-3 text-[13px] font-semibold text-ink hover:underline">Change UPI ID</button>
       </div>
     </Card>
   );
 }
 
 function DangerSection() {
+  const toast = useToast();
   return (
     <Card title="Danger Zone">
       <div className="space-y-3">
-        <div className="flex items-center justify-between rounded-2xl border border-amber-200 bg-amber-50 p-5">
+        <motion.div
+          whileHover={{ scale: 1.005 }}
+          transition={reduceMotion({ duration: dur.fast })}
+          className="flex items-center justify-between rounded-2xl border border-amber-200 bg-amber-50 p-5"
+        >
           <div>
             <p className="text-[15px] font-bold text-ink">Deactivate account</p>
             <p className="mt-1 text-[13px] text-muted">Hide your profile and listings. You can reactivate any time.</p>
           </div>
-          <button className="rounded-full border border-ink px-5 py-2 text-[13px] font-bold text-ink hover:bg-ink hover:text-white">
-            Deactivate
-          </button>
-        </div>
-        <div className="flex items-center justify-between rounded-2xl border border-red-200 bg-red-50 p-5">
+          <Button variant="outline" size="sm" onClick={() => toast("Deactivate flow coming soon", "info")}>Deactivate</Button>
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.005 }}
+          transition={reduceMotion({ duration: dur.fast })}
+          className="flex items-center justify-between rounded-2xl border border-red-200 bg-red-50 p-5"
+        >
           <div>
             <p className="text-[15px] font-bold text-ink">Delete account</p>
             <p className="mt-1 text-[13px] text-muted">Permanently delete your account and all data. This cannot be undone.</p>
           </div>
-          <button className="rounded-full bg-red-600 px-5 py-2 text-[13px] font-bold text-white hover:bg-red-700">
-            <Trash2 className="mr-1.5 inline h-3.5 w-3.5" /> Delete
-          </button>
-        </div>
+          <Button
+            size="sm"
+            className="bg-red-600 hover:bg-red-700"
+            onClick={() => toast("Delete confirmation modal coming soon", "error")}
+          >
+            <Trash2 className="mr-1.5 h-3.5 w-3.5" /> Delete
+          </Button>
+        </motion.div>
       </div>
     </Card>
   );
