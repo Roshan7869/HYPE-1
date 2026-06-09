@@ -2,9 +2,12 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Search, Plus, Minus, HelpCircle } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Search, Plus, Minus, HelpCircle, Mail, MessageCircle } from "lucide-react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Footer } from "@/components/layout/footer";
+import { EmptyState } from "@/components/motion/empty-state";
+import { dur, ease, fadeUp, reduceMotion, stagger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const CATEGORIES = [
@@ -61,15 +64,36 @@ export default function FaqPage() {
 
       <section className="bg-ink pb-24 pt-20 text-white">
         <div className="wrap text-center">
-          <HelpCircle className="mx-auto h-12 w-12 text-[#cfc8bb]" />
-          <h1 className="mt-4 font-disp text-[48px] font-extrabold tracking-tighter2 md:text-[56px]">
+          <motion.div
+            initial={{ scale: 0, rotate: -20 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={reduceMotion({ type: "spring", stiffness: 220, damping: 16, delay: 0.1 })}
+          >
+            <HelpCircle className="mx-auto h-12 w-12 text-[#cfc8bb]" />
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={reduceMotion({ duration: dur.slow, ease: ease.out, delay: 0.15 })}
+            className="mt-4 font-disp text-[48px] font-extrabold tracking-tighter2 md:text-[56px]"
+          >
             How can we help?
-          </h1>
-          <p className="mt-3 text-[16px] text-[#cfc8bb]">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={reduceMotion({ duration: dur.slow, ease: ease.out, delay: 0.25 })}
+            className="mt-3 text-[16px] text-[#cfc8bb]"
+          >
             Search our most common questions or browse by category.
-          </p>
-          <div className="mx-auto mt-8 max-w-2xl">
-            <div className="flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-5 py-3 backdrop-blur-sm">
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={reduceMotion({ duration: dur.slow, ease: ease.out, delay: 0.35 })}
+            className="mx-auto mt-8 max-w-2xl"
+          >
+            <div className="group flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-5 py-3 backdrop-blur-sm transition-colors focus-within:border-white/60 focus-within:bg-white/15">
               <Search className="h-5 w-5 text-white/70" />
               <input
                 value={q}
@@ -78,7 +102,7 @@ export default function FaqPage() {
                 className="flex-1 bg-transparent text-[15px] text-white placeholder:text-white/60 outline-none"
               />
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -86,10 +110,18 @@ export default function FaqPage() {
         <aside>
           <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.18em] text-muted">Categories</p>
           <nav className="space-y-1">
-            {CATEGORIES.map((c) => (
-              <a key={c.id} href={`#${c.id}`} className="block rounded-lg px-3 py-2 text-[15px] font-medium text-muted hover:bg-cream-2 hover:text-ink">
+            {CATEGORIES.map((c, i) => (
+              <motion.a
+                key={c.id}
+                href={`#${c.id}`}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={reduceMotion({ duration: dur.base, ease: ease.out, delay: i * 0.05 })}
+                whileHover={{ x: 4 }}
+                className="block rounded-lg px-3 py-2 text-[15px] font-medium text-muted hover:bg-cream-2 hover:text-ink"
+              >
                 {c.label}
-              </a>
+              </motion.a>
             ))}
           </nav>
         </aside>
@@ -98,13 +130,39 @@ export default function FaqPage() {
           {filtered ? (
             <div className="space-y-3">
               {filtered.length === 0 ? (
-                <p className="rounded-2xl border border-line bg-white p-12 text-center text-[15px] text-muted">
-                  No results for &ldquo;{q}&rdquo;. Try a different search.
-                </p>
+                <EmptyState
+                  icon={<HelpCircle className="h-7 w-7" />}
+                  title={`No results for “${q}”`}
+                  description="Try a different search, or contact our support team."
+                  action={
+                    <Link
+                      href="/contact"
+                      className="inline-flex h-12 items-center rounded-full bg-ink px-8 text-[14px] font-bold text-white hover:bg-black"
+                    >
+                      Contact Support
+                    </Link>
+                  }
+                />
               ) : (
-                filtered.map((x) => (
-                  <QAItem key={x.id} id={x.id} category={x.category} q={x.q} a={x.a} open={open === x.id} onToggle={() => setOpen(open === x.id ? null : x.id)} />
-                ))
+                <motion.div
+                  className="space-y-3"
+                  variants={stagger(0.05)}
+                  initial="hidden"
+                  animate="show"
+                >
+                  {filtered.map((x) => (
+                    <motion.div key={x.id} variants={fadeUp}>
+                      <QAItem
+                        id={x.id}
+                        category={x.category}
+                        q={x.q}
+                        a={x.a}
+                        open={open === x.id}
+                        onToggle={() => setOpen(open === x.id ? null : x.id)}
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
               )}
             </div>
           ) : (
@@ -127,16 +185,32 @@ export default function FaqPage() {
             ))
           )}
 
-          <div className="mt-12 rounded-2xl border border-line bg-white p-8 text-center">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-60px" }}
+            className="mt-12 rounded-2xl border border-line bg-white p-8 text-center"
+          >
             <h3 className="font-disp text-[20px] font-extrabold tracking-tighter2">Still need help?</h3>
             <p className="mt-2 text-[14px] text-muted">Our support team is available 9 AM – 9 PM IST.</p>
-            <Link
-              href="/contact"
-              className="mt-5 inline-flex h-12 items-center rounded-full bg-ink px-8 text-[14px] font-bold text-white hover:bg-black"
-            >
-              Contact Support
-            </Link>
-          </div>
+            <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link
+                href="/contact"
+                className="inline-flex h-12 items-center gap-2 rounded-full bg-ink px-8 text-[14px] font-bold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-black"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Contact Support
+              </Link>
+              <a
+                href="mailto:support@thehypecompany.in"
+                className="inline-flex h-12 items-center gap-2 rounded-full border-[1.5px] border-ink bg-white px-8 text-[14px] font-bold text-ink transition-all duration-200 hover:scale-[1.02] hover:bg-ink hover:text-white"
+              >
+                <Mail className="h-4 w-4" />
+                Email Us
+              </a>
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -145,29 +219,44 @@ export default function FaqPage() {
   );
 }
 
-function QAItem({ id, q, a, open, onToggle }: { id: string; category?: string; q: string; a: string; open: boolean; onToggle: () => void }) {
+function QAItem({ id, q, a, open, onToggle, category }: { id: string; q: string; a: string; open: boolean; onToggle: () => void; category?: string }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-line bg-white">
       <button
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={id}
-        className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+        className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-cream-2/40"
       >
-        <span className="flex-1 text-[15px] font-bold text-ink">{q}</span>
-        {open ? <Minus className="h-5 w-5 flex-none text-ink" /> : <Plus className="h-5 w-5 flex-none text-muted" />}
+        <span className="flex-1 text-[15px] font-bold text-ink">
+          {category && <span className="mr-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-hype-gold">{category}</span>}
+          {q}
+        </span>
+        <motion.span
+          animate={{ rotate: open ? 45 : 0 }}
+          transition={reduceMotion({ duration: dur.base, ease: ease.out })}
+          className={cn(
+            "flex h-7 w-7 flex-none items-center justify-center rounded-full border transition-colors",
+            open ? "border-ink bg-ink text-white" : "border-line text-muted",
+          )}
+        >
+          <Plus className="h-4 w-4" />
+        </motion.span>
       </button>
-      <div
-        id={id}
-        className={cn(
-          "grid overflow-hidden border-t border-line bg-cream-2 transition-all duration-200",
-          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={reduceMotion({ duration: dur.base, ease: ease.inOut })}
+            className="overflow-hidden border-t border-line bg-cream-2"
+          >
+            <p className="px-6 py-5 text-[14px] leading-[1.7] text-muted">{a}</p>
+          </motion.div>
         )}
-      >
-        <div className="min-h-0 overflow-hidden">
-          <p className="px-6 py-5 text-[14px] leading-[1.7] text-muted">{a}</p>
-        </div>
-      </div>
+      </AnimatePresence>
     </div>
   );
 }
